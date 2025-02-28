@@ -4443,23 +4443,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Utilizador\\.nuget\\packages\\": {},
+    "C:\\Users\\silva\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Utilizador\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
+      "projectUniqueName": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\StillGoodToGo\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
       "projectName": "StillGoodToGo",
-      "projectPath": "C:\\Users\\Utilizador\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
-      "packagesPath": "C:\\Users\\Utilizador\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Utilizador\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\obj\\",
+      "projectPath": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\StillGoodToGo\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
+      "packagesPath": "C:\\Users\\silva\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\StillGoodToGo\\StillGoodToGo.Net\\StillGoodToGo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Utilizador\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4468,7 +4468,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4485,7 +4484,7 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
       "SdkAnalysisLevel": "9.0.100"
     },
@@ -4537,7 +4536,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
