@@ -6,7 +6,7 @@ namespace StillGoodToGo.Models
     /// <summary>
     /// Represents a publication made by an establishment.
     /// </summary>
-    public class Publications
+    public class Publication
     {
         /// <summary>
         /// Unique identifier for the publication.
