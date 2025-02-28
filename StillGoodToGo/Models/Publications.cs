@@ -80,7 +80,7 @@ namespace StillGoodToGo.Models
         /// <param name="postDate">Posting date.</param>
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
-        public Publications(int id, Establishment establishment, string description, double price, DateTime postDate, DateTime endDate, Boolean status)
+        public Publication(int id, Establishment establishment, string description, double price, DateTime postDate, DateTime endDate, Boolean status)
         {
             Id = id;
             Establishment = establishment;
