@@ -12,7 +12,6 @@ out/
 
 StillGoodToGo/appsettings.json
 
-
 # Ignore NuGet packages
 *.nupkg
 packages/
