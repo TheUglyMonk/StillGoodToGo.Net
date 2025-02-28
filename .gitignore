@@ -1,0 +1,52 @@
+# Ignore Visual Studio specific files
+.vs/
+*.user
+*.suo
+*.sln.cache
+*.vscode/
+
+# Ignore build outputs
+bin/
+obj/
+out/
+
+StillGoodToGo/appsettings.json
+
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+project.lock.json
+
+# Ignore user-specific files
+*.psess
+*.pidb
+*.dotCover
+*.coverage
+*.testsettings
+*.vsconfig
+
+# Ignore logs and temporary files
+*.log
+Logs/
+Temp/
+
+# Ignore Rider / JetBrains specific files
+.idea/
+*.sln.iml
+
+# Ignore Resharper files
+*_Resharper*/
+
+# Ignore application secrets
+secrets.json
+
+# Ignore Entity Framework migrations
+migrations/
+
+# Ignore Docker files
+*.dockerignore
+**/docker-compose*
+
+# Ignore publish output
+publish/
