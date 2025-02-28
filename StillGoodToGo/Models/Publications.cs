@@ -25,7 +25,7 @@ namespace StillGoodToGo.Models
         /// </summary>
         [Required]
         [MaxLength(100)]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Price of the published item.
