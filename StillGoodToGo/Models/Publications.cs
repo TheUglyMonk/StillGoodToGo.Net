@@ -1,4 +1,4 @@
-﻿using System;
+﻿using StillGoodToGo.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Models
@@ -89,13 +89,6 @@ namespace StillGoodToGo.Models
             PostDate = postDate;
             EndDate = endDate;
             Status = status;
-        }
-
-        public enum PublicationStatus
-        {
-            Available,
-            Sold,
-            Unavailable
         }
     }
 }
