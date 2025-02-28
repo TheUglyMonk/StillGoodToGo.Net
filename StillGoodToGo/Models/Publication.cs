@@ -90,5 +90,11 @@ namespace StillGoodToGo.Models
             EndDate = endDate;
             Status = status;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Publication"/> class.
+        /// </summary>
+        public Publication()
+        {
+        }
     }
 }

@@ -93,7 +93,8 @@ namespace StillGoodToGo.Models
         /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
         /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
         /// <param name="publication">A list of publications related to the establishment.</param>
-        public Establishment(int id, string username, string email, string password, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)        {
+        public Establishment(int id, string username, string email, string password, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
+        {
             Id = id;
             Username = username;
             Email = email;
@@ -106,6 +107,11 @@ namespace StillGoodToGo.Models
             Classification = classification;
             Publication = publication;
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Establishment"/> class.
+        /// </summary>
+        public Establishment()
+        {
+        }
     }
 }
