@@ -78,5 +78,6 @@ namespace StillGoodToGo.Models
         /// </summary>
         [Required]
         public List<Publication> Publication { get; set; }
+
     }
 }
