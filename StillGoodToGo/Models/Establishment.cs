@@ -79,5 +79,33 @@ namespace StillGoodToGo.Models
         [Required]
         public List<Publication> Publication { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Establishment"/> class.
+        /// </summary>
+        /// <param name="id">The unique identifier for the establishment.</param>
+        /// <param name="username">The username of the establishment owner.</param>
+        /// <param name="email">The email address of the establishment.</param>
+        /// <param name="password">The password for the establishment account.</param>
+        /// <param name="role">The role of the user, typically <see cref="Role.Establishment"/>.</param>
+        /// <param name="description">A brief description of the establishment.</param>
+        /// <param name="categories">A list of categories associated with the establishment.</param>
+        /// <param name="latitude">The latitude coordinate of the establishment's location.</param>
+        /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
+        /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
+        /// <param name="publication">A list of publications related to the establishment.</param>
+        public Establishment(int id, string username, string email, string password, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)        {
+            Id = id;
+            Username = username;
+            Email = email;
+            Password = password;
+            Role = role;
+            Description = description;
+            Categories = categories;
+            Latitude = latitude;
+            Longitude = longitude;
+            Classification = classification;
+            Publication = publication;
+        }
+
     }
 }
