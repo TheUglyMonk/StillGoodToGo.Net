@@ -1,0 +1,6 @@
+@StillGoodToGo_HostAddress = http://localhost:5181
+
+GET {{StillGoodToGo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
