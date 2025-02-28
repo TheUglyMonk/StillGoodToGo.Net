@@ -41,6 +41,6 @@ namespace StillGoodToGo.Models
         public double Classification { get; set; }
 
         [Required]
-        public Publication Publication { get; set; }
+        public Publications Publications { get; set; }
     }
 }
