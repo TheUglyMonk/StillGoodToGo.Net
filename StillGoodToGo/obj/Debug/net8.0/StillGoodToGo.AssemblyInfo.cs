@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StillGoodToGo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+13b22dee769f7a7ceaad18b0bf27b25be0b7271d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ad5b28b7751c53340618c69054d611c265666b3")]
 [assembly: System.Reflection.AssemblyProductAttribute("StillGoodToGo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StillGoodToGo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
