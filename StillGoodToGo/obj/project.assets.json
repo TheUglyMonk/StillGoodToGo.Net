@@ -4443,23 +4443,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\silva\\.nuget\\packages\\": {},
+    "C:\\Users\\lomba\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\StillGoodToGo\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
+      "projectUniqueName": "C:\\Users\\lomba\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
       "projectName": "StillGoodToGo",
-      "projectPath": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\StillGoodToGo\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
-      "packagesPath": "C:\\Users\\silva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\StillGoodToGo\\StillGoodToGo.Net\\StillGoodToGo\\obj\\",
+      "projectPath": "C:\\Users\\lomba\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
+      "packagesPath": "C:\\Users\\lomba\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lomba\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lomba\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4468,6 +4468,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
