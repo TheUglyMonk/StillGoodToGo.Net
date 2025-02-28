@@ -4443,23 +4443,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lomba\\.nuget\\packages\\": {},
+    "C:\\Users\\Utilizador\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lomba\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
+      "projectUniqueName": "C:\\Users\\Utilizador\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
       "projectName": "StillGoodToGo",
-      "projectPath": "C:\\Users\\lomba\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
-      "packagesPath": "C:\\Users\\lomba\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lomba\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\obj\\",
+      "projectPath": "C:\\Users\\Utilizador\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\StillGoodToGo.csproj",
+      "packagesPath": "C:\\Users\\Utilizador\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Utilizador\\Desktop\\StillGoodToGo.Net\\StillGoodToGo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lomba\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Utilizador\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4485,7 +4485,7 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "direct"
+        "auditMode": "all"
       },
       "SdkAnalysisLevel": "9.0.100"
     },
@@ -4537,7 +4537,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
