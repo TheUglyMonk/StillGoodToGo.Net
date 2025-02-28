@@ -24,6 +24,7 @@ project.lock.json
 *.coverage
 *.testsettings
 *.vsconfig
+*.cache
 
 # Ignore logs and temporary files
 *.log
