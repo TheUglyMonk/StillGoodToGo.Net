@@ -52,25 +52,6 @@ namespace StillGoodToGo.Models
         public PublicationStatus Status { get; set; }
 
         /// <summary>
-        /// Constructor to create a new publication without an ID.
-        /// </summary>
-        /// <param name="establishment">Establishment responsible for the publication.</param>
-        /// <param name="description">Description of the publication.</param>
-        /// <param name="price">Price of the item.</param>
-        /// <param name="postDate">Posting date.</param>
-        /// <param name="endDate">Expiration date.</param>
-        /// <param name="status">Status of the publication.</param>
-        public Publication(Establishment establishment, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
-        {
-            Establishment = establishment;
-            Description = description;
-            Price = price;
-            PostDate = postDate;
-            EndDate = endDate;
-            Status = status;
-        }
-
-        /// <summary>
         /// Constructor to create a publication with a specific ID.
         /// </summary>
         /// <param name="id">Unique identifier of the publication.</param>
@@ -90,6 +71,26 @@ namespace StillGoodToGo.Models
             EndDate = endDate;
             Status = status;
         }
+
+        /// <summary>
+        /// Constructor to create a new publication without an ID.
+        /// </summary>
+        /// <param name="establishment">Establishment responsible for the publication.</param>
+        /// <param name="description">Description of the publication.</param>
+        /// <param name="price">Price of the item.</param>
+        /// <param name="postDate">Posting date.</param>
+        /// <param name="endDate">Expiration date.</param>
+        /// <param name="status">Status of the publication.</param>
+        public Publication(Establishment establishment, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        {
+            Establishment = establishment;
+            Description = description;
+            Price = price;
+            PostDate = postDate;
+            EndDate = endDate;
+            Status = status;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Publication"/> class.
         /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace StillGoodToGo.Enum
+﻿namespace StillGoodToGo.Enums
 {
     /// <summary>
     /// Defines the roles available in the system.
