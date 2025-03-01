@@ -4,6 +4,9 @@ using StillGoodToGo.Models;
 
 namespace StillGoodToGo.Services
 {
+    /// <summary>
+    /// Service class for managing establishments.
+    /// </summary>
     public class EstablishmentService
     {
         /// <summary>
@@ -11,13 +14,16 @@ namespace StillGoodToGo.Services
         /// </summary>
         private readonly StillGoodToGoContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the EstablishmentService class.
+        /// </summary>
         public EstablishmentService(StillGoodToGoContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// Create Establishment
+        /// Adds a new establishment to the database.
         /// </summary>
         public async Task<Establishment> AddEstablishment(Establishment establishment)
         {
@@ -31,9 +37,7 @@ namespace StillGoodToGo.Services
                 throw new Exception();
             }
 
-            ///<summary>
-            /// Checks if the Email or location already exists
-            /// </summary>
+            // Validate that the email and location are unique
             var emailExists = _context.Establishments.Any(e => e.Email == establishment.Email);
             var locationExists = _context.Establishments.Any(e => e.Latitude == establishment.Latitude && e.Longitude == establishment.Longitude);
             if (emailExists || locationExists)
@@ -41,6 +45,7 @@ namespace StillGoodToGo.Services
                 throw new Exception();
             }
 
+            // Validate that the establishment has at least one category
             if (establishment.Categories == null || !establishment.Categories.Any())
             {
                 throw new Exception();
@@ -55,6 +60,7 @@ namespace StillGoodToGo.Services
                 }
             }
 
+            // Adds establishment to the database
             await _context.Establishments.AddAsync(establishment);
             await _context.SaveChangesAsync();
 

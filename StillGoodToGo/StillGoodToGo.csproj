@@ -21,10 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Mappers\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Services\ServicesInterfaces\" />
     <Folder Include="Tests\" />
   </ItemGroup>
 

@@ -37,5 +37,20 @@ namespace StillGoodToGo.Mappers
             );
         }
 
+        public EstablishmentResponseDto EstablishmentToEstablishmentResponse(Establishment establishment)
+        {
+            return new EstablishmentResponseDto(
+                establishment.Id,
+                establishment.Username,
+                establishment.Email,
+                establishment.Role,
+                establishment.Description,
+                establishment.Categories,
+                establishment.Latitude,
+                establishment.Longitude,
+                establishment.Classification,
+                establishment.Publication
+            );
+        }
     }
 }

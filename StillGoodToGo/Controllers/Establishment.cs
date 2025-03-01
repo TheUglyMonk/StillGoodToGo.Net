@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StillGoodToGo.Mappers;
 using StillGoodToGo.Services.ServicesInterfaces;
 
 namespace StillGoodToGo.Controllers
@@ -11,6 +12,7 @@ namespace StillGoodToGo.Controllers
         {
             private readonly IEstablishmentService _establishmentService;
             private readonly EstablishmentMapper _establishmentMapper;
+
             public EstablishmentController(IEstablishmentService establishmentService)
             {
                 _establishmentService = establishmentService;
