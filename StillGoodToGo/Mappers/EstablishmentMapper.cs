@@ -45,6 +45,7 @@ namespace StillGoodToGo.Mappers
             return new Establishment(
                 establishmentResponse.Username,
                 establishmentResponse.Email,
+                establishmentResponse.Password,
                 establishmentResponse.Description,
                 establishmentResponse.Categories,
                 establishmentResponse.Latitude,
@@ -85,6 +86,7 @@ namespace StillGoodToGo.Mappers
             return new EstablishmentRequestDto(
                 establishment.Username,
                 establishment.Email,
+                establishment.Password,
                 establishment.Description,
                 establishment.Categories,
                 establishment.Latitude,
