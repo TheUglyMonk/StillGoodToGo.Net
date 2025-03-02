@@ -1,4 +1,4 @@
-﻿using StillGoodToGo.Enum;
+﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Dtos
