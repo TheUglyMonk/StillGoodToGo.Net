@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using StillGoodToGo.Mappers;
+using StillGoodToGo.Models;
 using StillGoodToGo.Services.ServicesInterfaces;
 
 namespace StillGoodToGo.Controllers
 {
-    public class Establishment : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EstablishmentController : ControllerBase
     {
-        [ApiController]
-        [Route("api/establishment")]
-        public class EstablishmentController : ControllerBase
-        {
+        
             private readonly IEstablishmentService _establishmentService;
             private readonly EstablishmentMapper _establishmentMapper;
 
@@ -17,6 +18,8 @@ namespace StillGoodToGo.Controllers
             {
                 _establishmentService = establishmentService;
             }
+
+
             [HttpPost]
             public async Task<IActionResult> AddEstablishment(Establishment establishment)
             {
@@ -30,6 +33,7 @@ namespace StillGoodToGo.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-        }
+        
     }
 }
+

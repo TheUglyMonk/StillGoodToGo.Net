@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StillGoodToGo.Dtos
 {
     /// <summary>
-    /// Data Transfer Object for the Publication class.
+    /// Data Transfer Object (DTO) for returning publication details.
     /// </summary>
     public class PublicationResponseDto
     {
@@ -12,6 +12,12 @@ namespace StillGoodToGo.Dtos
         /// Gets or sets the unique identifier for the publication.
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier of the establishment that created the publication.
+        /// </summary>
+        [Required]
+        public int EstablishmentId { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the publication.
@@ -27,7 +33,7 @@ namespace StillGoodToGo.Dtos
         public double Price { get; set; }
 
         /// <summary>
-        /// Gets or sets the posting date of the publication.
+        /// Gets or sets the date when the publication was created.
         /// </summary>
         [Required]
         public DateTime PostDate { get; set; }
@@ -39,23 +45,25 @@ namespace StillGoodToGo.Dtos
         public DateTime EndDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the status of the publication (active or inactive).
+        /// Gets or sets the status of the publication (e.g., Active or Inactive).
         /// </summary>
         [Required]
         public PublicationStatus Status { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the PublicationResponseDto.
+        /// Initializes a new instance of the <see cref="PublicationResponseDto"/> class.
         /// </summary>
         /// <param name="id">The unique identifier for the publication.</param>
-        /// <param name="description">The description of the publication.</param>
+        /// <param name="establishmentId">The ID of the establishment that owns this publication.</param>
+        /// <param name="description">A short description of the publication.</param>
         /// <param name="price">The price of the published item.</param>
-        /// <param name="postDate">The posting date of the publication.</param>
+        /// <param name="postDate">The date when the publication was created.</param>
         /// <param name="endDate">The expiration date of the publication.</param>
-        /// <param name="status">The status of the publication.</param>
-        public PublicationResponseDto(int id, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        /// <param name="status">The current status of the publication.</param>
+        public PublicationResponseDto(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             Id = id;
+            EstablishmentId = establishmentId;
             Description = description;
             Price = price;
             PostDate = postDate;
