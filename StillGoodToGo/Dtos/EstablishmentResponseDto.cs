@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StillGoodToGo.Dtos
 {
     /// <summary>
-    /// Data Transfer Object for Establishment
+    /// Data Transfer Object for Establishment Responses
     /// </summary>
     public class EstablishmentResponseDto
     {

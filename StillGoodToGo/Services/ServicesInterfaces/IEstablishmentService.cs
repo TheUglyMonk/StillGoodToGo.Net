@@ -1,4 +1,5 @@
-﻿using StillGoodToGo.Models;
+﻿using StillGoodToGo.Dtos;
+using StillGoodToGo.Models;
 
 namespace StillGoodToGo.Services.ServicesInterfaces
 {
