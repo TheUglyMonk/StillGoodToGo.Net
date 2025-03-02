@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using StillGoodToGo.Dtos;
+using StillGoodToGo.Exceptions;
 using StillGoodToGo.Mappers;
 using StillGoodToGo.Models;
 using StillGoodToGo.Services.ServicesInterfaces;
@@ -9,10 +12,12 @@ namespace StillGoodToGo.Controllers
     /// <summary>
     /// controller for the establishment entity.
     /// </summary>
-    [Route("api/[controller]")]
+    
     [ApiController]
+    [Route("api/[controller]")]
     public class EstablishmentController : ControllerBase
     {
+
         private readonly IEstablishmentService _establishmentService;
         private readonly EstablishmentMapper _establishmentMapper;
 
@@ -47,9 +52,35 @@ namespace StillGoodToGo.Controllers
 
                 return Ok(establishmentResponseDto);
             }
-            catch (Exception ex)
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEstablishment(int id, [FromBody] EstablishmentRequestDto establishmentDto)
+        {
+            try
             {
-                return BadRequest(ex.Message);
+                
+                Establishment establishment = _establishmentMapper.EstablishmentRequestToEstablishment(establishmentDto);
+
+                establishment = await _establishmentService.UpdatesEstablishment(id, establishment);
+
+                return Ok(_establishmentMapper.EstablishmentToEstablishmentResponse(establishment));
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (InvalidParam e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (NotFoundInDbSet e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

@@ -3,6 +3,8 @@ using StillGoodToGo.Enums;
 using StillGoodToGo.Exceptions;
 using StillGoodToGo.Models;
 using StillGoodToGo.Services.ServicesInterfaces;
+using StillGoodToGo.Exceptions;
+
 
 namespace StillGoodToGo.Services
 {
@@ -75,6 +77,70 @@ namespace StillGoodToGo.Services
 
             // Adds establishment to the database
             await _context.Establishments.AddAsync(establishment);
+            await _context.SaveChangesAsync();
+
+            return establishment;
+        }
+
+        public async Task<Establishment> UpdatesEstablishment(int id, Establishment updatedEstablishment)
+        {
+
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            if (updatedEstablishment == null) {
+                throw new ParamIsNull();
+            }
+
+            if (updatedEstablishment.Email.IsNullOrEmpty())
+            {
+                throw new InvalidParam("Email can not be empty");
+            }
+
+            if (updatedEstablishment.Password.IsNullOrEmpty())
+            {
+                throw new InvalidParam("Password can not be empty");
+            }
+
+            if (updatedEstablishment.Username.IsNullOrEmpty())
+            {
+                throw new InvalidParam("Username can not be empty");
+            }
+
+            Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
+
+            if (establishment == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            if (updatedEstablishment.Email != establishment.Email)
+            {
+                Establishment establishmenexists = _context.Establishments.FirstOrDefault(e => e.Email == updatedEstablishment.Email);
+                if (establishmenexists != null)
+                {
+                    throw new InvalidParam("Email already exists.");
+                }
+            }
+
+            if (updatedEstablishment.Latitude != establishment.Latitude || updatedEstablishment.Longitude != establishment.Longitude)
+            {
+                Establishment establishmenexists = _context.Establishments.FirstOrDefault(e => e.Latitude == updatedEstablishment.Latitude && e.Longitude == updatedEstablishment.Longitude);
+                if (establishmenexists != null)
+                {
+                    throw new InvalidParam("Location already exists.");
+                }
+            }
+
+            establishment.Username = updatedEstablishment.Username;
+            establishment.Email = updatedEstablishment.Email;
+            establishment.Password = updatedEstablishment.Password;
+            establishment.Latitude = updatedEstablishment.Latitude;
+            establishment.Longitude = updatedEstablishment.Longitude;
+            establishment.Description = updatedEstablishment.Description;
+
             await _context.SaveChangesAsync();
 
             return establishment;

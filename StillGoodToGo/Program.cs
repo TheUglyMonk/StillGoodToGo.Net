@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using StillGoodToGo.DataContext;
-using StillGoodToGo.Mappers;
-using StillGoodToGo.Services;
 using StillGoodToGo.Services.ServicesInterfaces;
+using StillGoodToGo.Services;
+using StillGoodToGo.Mappers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,13 @@ builder.Services.AddDbContext<StillGoodToGoContext>(options =>
 // Register services
 builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
 builder.Services.AddScoped<EstablishmentMapper>();
+
+// Service Injection
+builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
+
+// Mapper Injection
+builder.Services.AddScoped<EstablishmentMapper>();
+
 
 var app = builder.Build();
 

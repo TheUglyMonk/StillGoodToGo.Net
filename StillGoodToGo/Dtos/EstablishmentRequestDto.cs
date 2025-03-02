@@ -12,61 +12,38 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the username of the establishment owner.
         /// </summary>
-        [Required]
-        [StringLength(50)]
         public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the email address of the establishment.
         /// </summary>
-        [Required]
-        [StringLength(50)]
         public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the password for the establishment account.
+
+        /// Gets or sets the Password of the establishment.
         /// </summary>
-        [Required]
-        [StringLength(50)]
         public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets a brief description of the establishment.
         /// </summary>
-        [Required]
-        [StringLength(200)]
         public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of categories associated with the establishment.
-        /// </summary>
-        [Required]
-        public List<Category> Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the latitude coordinate of the establishment's location.
         /// </summary>
-        [Required]
         public double Latitude { get; set; }
 
         /// <summary>
         /// Gets or sets the longitude coordinate of the establishment's location.
         /// </summary>
-        [Required]
         public double Longitude { get; set; }
 
         /// <summary>
         /// Gets or sets the classification rating of the establishment, ranging from 0 to 5.
         /// </summary>
-        [Required]
-        [Range(0, 5)]
         public double Classification { get; set; }
-
-        /// <summary>
-        /// Gets or sets the publications related to the establishment.
-        /// </summary>
-        [Required]
-        public List<Publication> Publication { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EstablishmentRequestDto"/> class.
@@ -80,17 +57,16 @@ namespace StillGoodToGo.Dtos
         /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
         /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
         /// <param name="publication">A list of publications related to the establishment.</param>
-        public EstablishmentRequestDto(string username, string email, string password, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
+
+        public EstablishmentRequestDto(string username, string email, string password, string description, double latitude, double longitude, double classification )
         {
             Username = username;
             Email = email;
-            Password = password;
+            Password = password;  
             Description = description;
-            Categories = categories;
             Latitude = latitude;
             Longitude = longitude;
             Classification = classification;
-            Publication = publication;
         }
     }
 }

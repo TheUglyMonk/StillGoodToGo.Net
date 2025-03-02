@@ -1,5 +1,6 @@
 ﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace StillGoodToGo.Models
 {
@@ -51,8 +52,8 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Gets or sets the list of categories associated with the establishment.
         /// </summary>
-        [Required]
-        public List<Category> Categories { get; set; }
+        [JsonIgnore]
+        public List<Category>? Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the latitude coordinate of the establishment's location.
@@ -76,9 +77,9 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Gets or sets the publications related to the establishment.
         /// </summary>
-        [Required]
-        public List<Publication> Publication { get; set; } = new List<Publication>();
 
+        [JsonIgnore]
+        public List<Publication>? Publication { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the establishment class.
@@ -110,26 +111,16 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Initializes a new instance of the establishment class.
         /// </summary>
-        /// <param name="username">The username of the establishment owner.</param>
-        /// <param name="email">The email address of the establishment.</param>
-        /// <param name="description">A brief description of the establishment.</param>
-        /// <param name="categories">A list of categories associated with the establishment.</param>
-        /// <param name="latitude">The latitude coordinate of the establishment's location.</param>
-        /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
-        /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
-        /// <param name="publication">A list of publications related to the establishment.</param>
-        public Establishment( string username, string email,string password, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
+        public Establishment( string username, string email, string passsword, string description, double latitude, double longitude, double classification)
         {
             Username = username;
             Email = email;
-            Password = password;
+            Password = passsword;
             Role = Role.Establishment;
             Description = description;
-            Categories = categories;
             Latitude = latitude;
             Longitude = longitude;
             Classification = classification;
-            Publication = publication;
         }
 
         /// <summary>
