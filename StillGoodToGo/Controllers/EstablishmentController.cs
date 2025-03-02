@@ -1,5 +1,5 @@
 
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StillGoodToGo.Dtos;
 using StillGoodToGo.Exceptions;
@@ -12,7 +12,7 @@ namespace StillGoodToGo.Controllers
     /// <summary>
     /// controller for the establishment entity.
     /// </summary>
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class EstablishmentController : ControllerBase
@@ -52,6 +52,35 @@ namespace StillGoodToGo.Controllers
 
                 return Ok(establishmentResponseDto);
             }
+            catch (DbSetNotInitialize ex)
+            {
+                // Indicates a configuration error or similar internal problem.
+                return StatusCode(500, ex.Message);
+            }
+            catch (ParamIsNull ex)
+            {
+                // Indicates that a required parameter was null.
+                return BadRequest(ex.Message);
+            }
+            catch (EstablishmentNotUnique ex)
+            {
+                // Indicates a conflict when the establishment email or location is not unique.
+                return Conflict(ex.Message);
+            }
+            catch (NoCategoryFound ex)
+            {
+                // Indicates that no category was provided.
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidCategoryFound ex)
+            {
+                // Indicates that one or more categories are invalid.
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
@@ -59,7 +88,7 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                
+
                 Establishment establishment = _establishmentMapper.EstablishmentRequestToEstablishment(establishmentDto);
 
                 establishment = await _establishmentService.UpdatesEstablishment(id, establishment);

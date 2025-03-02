@@ -90,10 +90,11 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            if (updatedEstablishment == null) {
+            if (updatedEstablishment == null)
+            {
                 throw new ParamIsNull();
             }
-
+/*
             if (updatedEstablishment.Email.IsNullOrEmpty())
             {
                 throw new InvalidParam("Email can not be empty");
@@ -107,7 +108,7 @@ namespace StillGoodToGo.Services
             if (updatedEstablishment.Username.IsNullOrEmpty())
             {
                 throw new InvalidParam("Username can not be empty");
-            }
+            }*/
 
             Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
 

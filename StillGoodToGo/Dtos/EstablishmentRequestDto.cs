@@ -1,6 +1,7 @@
 ﻿using StillGoodToGo.Enums;
 using StillGoodToGo.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace StillGoodToGo.Dtos
 {
@@ -20,7 +21,6 @@ namespace StillGoodToGo.Dtos
         public string Email { get; set; }
 
         /// <summary>
-
         /// Gets or sets the Password of the establishment.
         /// </summary>
         public string Password { get; set; }
@@ -29,6 +29,11 @@ namespace StillGoodToGo.Dtos
         /// Gets or sets a brief description of the establishment.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of categories associated with the establishment.
+        /// </summary>
+        public List<Category> Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the latitude coordinate of the establishment's location.
@@ -58,11 +63,12 @@ namespace StillGoodToGo.Dtos
         /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
         /// <param name="publication">A list of publications related to the establishment.</param>
 
-        public EstablishmentRequestDto(string username, string email, string password, string description, double latitude, double longitude, double classification )
+        public EstablishmentRequestDto(string username, string email, string password, string description, List<Category>? categories, double latitude, double longitude, double classification)
         {
             Username = username;
             Email = email;
-            Password = password;  
+            Password = password;
+            Categories = categories;
             Description = description;
             Latitude = latitude;
             Longitude = longitude;
