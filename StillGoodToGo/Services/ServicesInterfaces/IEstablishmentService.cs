@@ -11,5 +11,10 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Adds a new establishment to the database.
         /// </summary>
         Task<Establishment> AddEstablishment(Establishment establishment);
+
+        /// <summary>
+        /// Updates an establishment.
+        /// </summary>
+        Task<Establishment> UpdatesEstablishment(int id, Establishment establishment);
     }
 }

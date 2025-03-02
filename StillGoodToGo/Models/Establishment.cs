@@ -1,5 +1,6 @@
 ﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace StillGoodToGo.Models
 {
@@ -51,8 +52,8 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Gets or sets the list of categories associated with the establishment.
         /// </summary>
-        [Required]
-        public List<Category> Categories { get; set; }
+        [JsonIgnore]
+        public List<Category>? Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the latitude coordinate of the establishment's location.
@@ -76,10 +77,8 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Gets or sets the publications related to the establishment.
         /// </summary>
-        [Required]
-        public List<Publication> Publication { get; set; }
-
-        
+        [JsonIgnore]
+        public List<Publication>? Publication { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the establishment class.
@@ -101,17 +100,16 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Initializes a new instance of the establishment class.
         /// </summary>
-        public Establishment( string username, string email, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
+        public Establishment( string username, string email, string passsword, string description, double latitude, double longitude, double classification)
         {
             Username = username;
             Email = email;
+            Password = passsword;
             Role = Role.Establishment;
             Description = description;
-            Categories = categories;
             Latitude = latitude;
             Longitude = longitude;
             Classification = classification;
-            Publication = publication;
         }
 
         /// <summary>

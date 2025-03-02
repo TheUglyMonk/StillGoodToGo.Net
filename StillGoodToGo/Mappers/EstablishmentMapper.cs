@@ -45,12 +45,11 @@ namespace StillGoodToGo.Mappers
             return new Establishment(
                 establishmentResponse.Username,
                 establishmentResponse.Email,
+                establishmentResponse.Password,
                 establishmentResponse.Description,
-                establishmentResponse.Categories,
                 establishmentResponse.Latitude,
                 establishmentResponse.Longitude,
-                establishmentResponse.Classification,
-                establishmentResponse.Publication
+                establishmentResponse.Classification
             );
         }
 
@@ -85,12 +84,11 @@ namespace StillGoodToGo.Mappers
             return new EstablishmentRequestDto(
                 establishment.Username,
                 establishment.Email,
+                establishment.Password,
                 establishment.Description,
-                establishment.Categories,
                 establishment.Latitude,
                 establishment.Longitude,
-                establishment.Classification,
-                establishment.Publication
+                establishment.Classification
             );
         }
     }
