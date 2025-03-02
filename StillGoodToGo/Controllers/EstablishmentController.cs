@@ -20,9 +20,10 @@ namespace StillGoodToGo.Controllers
         /// Initializes a new instance of the <see cref="EstablishmentController"/> class.
         /// </summary>
         /// <param name="establishmentService"></param>
-        public EstablishmentController(IEstablishmentService establishmentService)
+        public EstablishmentController(IEstablishmentService establishmentService, EstablishmentMapper establishmentMapper)
         {
             _establishmentService = establishmentService;
+            _establishmentMapper = establishmentMapper;
         }
 
         /// <summary>

@@ -77,7 +77,7 @@ namespace StillGoodToGo.Models
         /// Gets or sets the publications related to the establishment.
         /// </summary>
         [Required]
-        public List<Publication> Publication { get; set; }
+        public List<Publication> Publication { get; set; } = new List<Publication>();
 
 
         /// <summary>
