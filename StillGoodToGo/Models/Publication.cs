@@ -1,4 +1,4 @@
-﻿using StillGoodToGo.Enum;
+﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Models
@@ -19,6 +19,12 @@ namespace StillGoodToGo.Models
         /// </summary>
         [Required]
         public Establishment Establishment { get; set; }
+
+        /// <summary>
+        /// Establishment's id associated with the publication.
+        /// </summary>
+        [Required]
+        public int EstablishmentId { get; set; }
 
         /// <summary>
         /// Description of the publication.
@@ -55,16 +61,16 @@ namespace StillGoodToGo.Models
         /// Constructor to create a publication with a specific ID.
         /// </summary>
         /// <param name="id">Unique identifier of the publication.</param>
-        /// <param name="establishment">Establishment responsible for the publication.</param>
+        /// <param name="establishmentId">Establishment responsible for the publication.</param>
         /// <param name="description">Description of the publication.</param>
         /// <param name="price">Price of the item.</param>
         /// <param name="postDate">Posting date.</param>
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
-        public Publication(int id, Establishment establishment, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public Publication(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             Id = id;
-            Establishment = establishment;
+            EstablishmentId = establishmentId;
             Description = description;
             Price = price;
             PostDate = postDate;
@@ -75,15 +81,15 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Constructor to create a new publication without an ID.
         /// </summary>
-        /// <param name="establishment">Establishment responsible for the publication.</param>
+        /// <param name="establishmentId">Establishment responsible for the publication.</param>
         /// <param name="description">Description of the publication.</param>
         /// <param name="price">Price of the item.</param>
         /// <param name="postDate">Posting date.</param>
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
-        public Publication(Establishment establishment, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public Publication(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
-            Establishment = establishment;
+            EstablishmentId = establishmentId;
             Description = description;
             Price = price;
             PostDate = postDate;

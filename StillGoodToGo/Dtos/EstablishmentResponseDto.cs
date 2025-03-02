@@ -1,5 +1,4 @@
-﻿using StillGoodToGo.Enum;
-using StillGoodToGo.Enums;
+﻿using StillGoodToGo.Enums;
 using StillGoodToGo.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -81,7 +80,7 @@ namespace StillGoodToGo.Dtos
             Id = id;
             Username = username;
             Email = email;
-            Role = role;
+            Role = Role.Establishment;
             Description = description;
             Categories = categories;
             Latitude = latitude;

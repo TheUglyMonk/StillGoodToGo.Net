@@ -89,7 +89,7 @@ namespace StillGoodToGo.Models
             Id = id;
             Username = username;
             Email = email;
-            Role = role;
+            Role = Role.Establishment;
             Description = description;
             Categories = categories;
             Latitude = latitude;
@@ -101,11 +101,11 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Initializes a new instance of the establishment class.
         /// </summary>
-        public Establishment( string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
+        public Establishment( string username, string email, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
         {
             Username = username;
             Email = email;
-            Role = role;
+            Role = Role.Establishment;
             Description = description;
             Categories = categories;
             Latitude = latitude;

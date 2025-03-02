@@ -1,5 +1,4 @@
-﻿using StillGoodToGo.Enum;
-using StillGoodToGo.Enums;
+﻿using StillGoodToGo.Enums;
 using StillGoodToGo.Models;
 using System.ComponentModel.DataAnnotations;
 

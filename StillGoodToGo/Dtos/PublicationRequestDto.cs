@@ -1,4 +1,4 @@
-﻿using StillGoodToGo.Enum;
+﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Dtos
@@ -8,6 +8,12 @@ namespace StillGoodToGo.Dtos
     /// </summary>
     public class PublicationRequestDto
     {
+        /// <summary>
+        /// Gets or sets the establishmentId of the publication.
+        /// </summary>
+        [Required]
+        public int EstablishmentId { get; set; }
+        
         /// <summary>
         /// Gets or sets the description of the publication.
         /// </summary>
@@ -48,8 +54,9 @@ namespace StillGoodToGo.Dtos
         /// <param name="postDate">The posting date of the publication.</param>
         /// <param name="endDate">The expiration date of the publication.</param>
         /// <param name="status">The status of the publication.</param>
-        public PublicationRequestDto(string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public PublicationRequestDto(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
+            EstablishmentId = establishmentId;
             Description = description;
             Price = price;
             PostDate = postDate;
