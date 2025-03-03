@@ -13,10 +13,12 @@ namespace StillGoodToGo.DataContext
         /// </summary>
         /// <param name="options"></param>
         public StillGoodToGoContext(DbContextOptions<StillGoodToGoContext> options) : base(options){}
+
         /// <summary>
         /// Represents the establishments table in the database.
         /// </summary>
         public DbSet<Establishment> Establishments { get; set; }
+
         /// <summary>
         /// Represents the publications table in the database.
         /// </summary>

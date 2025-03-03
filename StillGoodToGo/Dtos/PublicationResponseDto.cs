@@ -16,38 +16,31 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the identifier of the establishment that created the publication.
         /// </summary>
-        [Required]
         public int EstablishmentId { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the publication.
         /// </summary>
-        [Required]
-        [MaxLength(100)]
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the price of the published item.
         /// </summary>
-        [Required]
         public double Price { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the publication was created.
         /// </summary>
-        [Required]
         public DateTime PostDate { get; set; }
 
         /// <summary>
         /// Gets or sets the expiration date of the publication.
         /// </summary>
-        [Required]
         public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the status of the publication (e.g., Active or Inactive).
         /// </summary>
-        [Required]
         public PublicationStatus Status { get; set; }
 
         /// <summary>
