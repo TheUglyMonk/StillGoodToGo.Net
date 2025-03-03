@@ -31,7 +31,8 @@ namespace StillGoodToGo.Mappers
                 establishmentResponse.Latitude,
                 establishmentResponse.Longitude,
                 establishmentResponse.Classification,
-                establishmentResponse.Publication
+                establishmentResponse.Publication,
+                establishmentResponse.Active
             );
         }
 
@@ -71,7 +72,8 @@ namespace StillGoodToGo.Mappers
                 establishment.Latitude,
                 establishment.Longitude,
                 establishment.Classification,
-                establishment.Publication
+                establishment.Publication,
+                establishment.Active
             );
         }
 

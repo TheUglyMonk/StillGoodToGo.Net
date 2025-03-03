@@ -19,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StillGoodToGoContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("StillGoodToGoDotNetDB")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GoodToGoDotNetDB")));
 
 // Register services
 builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
@@ -44,8 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
+/*
+app.UseHttpsRedirection();*/
 
 app.UseAuthorization();
 

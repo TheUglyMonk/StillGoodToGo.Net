@@ -38,5 +38,11 @@ namespace StillGoodToGo.Services
             // Return a DTO for security
             return _publicationMapper.PublicationToPublicationResponse(publication);
         }
+
+        //APAGAR
+        public Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
