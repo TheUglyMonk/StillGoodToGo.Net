@@ -20,15 +20,19 @@ namespace StillGoodToGo.Controllers
 
         private readonly IEstablishmentService _establishmentService;
         private readonly EstablishmentMapper _establishmentMapper;
+        private readonly ILogger<EstablishmentController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EstablishmentController"/> class.
         /// </summary>
         /// <param name="establishmentService"></param>
-        public EstablishmentController(IEstablishmentService establishmentService, EstablishmentMapper establishmentMapper)
+        public EstablishmentController(IEstablishmentService establishmentService,
+                                   EstablishmentMapper establishmentMapper,
+                                   ILogger<EstablishmentController> logger)
         {
             _establishmentService = establishmentService;
             _establishmentMapper = establishmentMapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -37,10 +41,11 @@ namespace StillGoodToGo.Controllers
         /// <param name="establishmentRequestDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddEstablishment(EstablishmentRequestDto establishmentRequestDto)
+        public async Task<IActionResult> AddEstablishment([FromBody] EstablishmentRequestDto establishmentRequestDto)
         {
             try
             {
+                _logger.LogInformation("Received EstablishmentRequestDto: {@EstablishmentRequestDto}", establishmentRequestDto);
                 // Map the request DTO to an establishment model
                 var establishment = _establishmentMapper.EstablishmentRequestToEstablishment(establishmentRequestDto);
 
