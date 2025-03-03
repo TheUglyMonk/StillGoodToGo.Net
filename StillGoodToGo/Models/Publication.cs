@@ -52,10 +52,10 @@ namespace StillGoodToGo.Models
         public DateTime EndDate { get; set; }
 
         /// <summary>
-        /// Status of the publication (active or inactive).
+        /// Gets or sets the list of status associated with the publication (Available, Sold, Unavailable).
         /// </summary>
         [Required]
-        public PublicationStatus Status { get; set; }
+        public List<PublicationStatus> Status { get; set; }
 
         /// <summary>
         /// Constructor to create a publication with a specific ID.
@@ -67,7 +67,7 @@ namespace StillGoodToGo.Models
         /// <param name="postDate">Posting date.</param>
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
-        public Publication(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public Publication(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, List<PublicationStatus> status)
         {
             Id = id;
             EstablishmentId = establishmentId;
@@ -87,7 +87,7 @@ namespace StillGoodToGo.Models
         /// <param name="postDate">Posting date.</param>
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
-        public Publication(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public Publication(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, List<PublicationStatus> status)
         {
             EstablishmentId = establishmentId;
             Description = description;

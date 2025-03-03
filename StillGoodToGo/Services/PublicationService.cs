@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StillGoodToGo.DataContext;
 using StillGoodToGo.Dtos;
+using StillGoodToGo.Enums;
 using StillGoodToGo.Exceptions;
 using StillGoodToGo.Mappers;
 using StillGoodToGo.Models;
@@ -11,38 +12,34 @@ namespace StillGoodToGo.Services
     public class PublicationService : IPublicationService
     {
         private readonly StillGoodToGoContext _context;
-        private readonly PublicationMapper _publicationMapper;
 
-        public PublicationService(StillGoodToGoContext context, PublicationMapper publicationMapper)
+        public PublicationService(StillGoodToGoContext context)
         {
             _context = context;
-            _publicationMapper = publicationMapper;
+            
         }
 
-        public async Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto)
+        public async Task<Publication> AddPublication(Publication publication)
         {
-            if (publicationDto == null)
-                throw new ParamIsNull();
+            if(_context.Publications == null) { throw new DbSetNotInitialize(); }
 
-            // Check if the establishment exists
-            var establishmentExists = await _context.Establishments.AnyAsync(e => e.Id == publicationDto.EstablishmentId);
-            if (!establishmentExists)
-                throw new EstablishmentNotFound();
+            if (publication == null) { throw new ParamIsNull(); }
 
-            // Convert DTO to entity
-            var publication = _publicationMapper.PublicationRequestToPublication(publicationDto);
+            if(publication.Establishment == null) { throw new ParamIsNull(); }
 
-            _context.Publications.Add(publication);
+            if (publication.Establishment.Id == 0) { throw new ParamIsNull(); }
+
+            if(publication.Status == null) { throw new NoStatusFound(); }
+
+            foreach (var status in publication.Status) 
+            { 
+                if(!Enum.IsDefined(typeof(PublicationStatus), status)) { throw new InvalidStatusFound(); }
+            }
+
+            await _context.Publications.AddAsync(publication);
             await _context.SaveChangesAsync();
 
-            // Return a DTO for security
-            return _publicationMapper.PublicationToPublicationResponse(publication);
-        }
-
-        //APAGAR
-        public Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto)
-        {
-            throw new NotImplementedException();
+            return publication;
         }
     }
 }

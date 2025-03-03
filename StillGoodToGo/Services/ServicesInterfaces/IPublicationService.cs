@@ -1,10 +1,11 @@
 ﻿using StillGoodToGo.Dtos;
+using StillGoodToGo.Models;
 
 
 namespace StillGoodToGo.Services.ServicesInterfaces
 {
     public interface IPublicationService
     {
-        Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto);
+        Task<Publication> AddPublication(Publication publication);
     }
 }
