@@ -4,6 +4,7 @@ using StillGoodToGo.Exceptions;
 using StillGoodToGo.Models;
 using StillGoodToGo.Services.ServicesInterfaces;
 using StillGoodToGo.Exceptions;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace StillGoodToGo.Services
@@ -94,7 +95,7 @@ namespace StillGoodToGo.Services
             {
                 throw new ParamIsNull();
             }
-/*
+
             if (updatedEstablishment.Email.IsNullOrEmpty())
             {
                 throw new InvalidParam("Email can not be empty");
@@ -108,7 +109,7 @@ namespace StillGoodToGo.Services
             if (updatedEstablishment.Username.IsNullOrEmpty())
             {
                 throw new InvalidParam("Username can not be empty");
-            }*/
+            }
 
             Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
 
@@ -141,6 +142,7 @@ namespace StillGoodToGo.Services
             establishment.Latitude = updatedEstablishment.Latitude;
             establishment.Longitude = updatedEstablishment.Longitude;
             establishment.Description = updatedEstablishment.Description;
+            establishment.Active = updatedEstablishment.Active;
 
             await _context.SaveChangesAsync();
 
