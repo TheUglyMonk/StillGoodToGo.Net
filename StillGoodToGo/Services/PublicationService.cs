@@ -11,35 +11,32 @@ namespace StillGoodToGo.Services
     public class PublicationService : IPublicationService
     {
         private readonly StillGoodToGoContext _context;
+        private readonly PublicationMapper _publicationMapper;
 
-        public PublicationService(StillGoodToGoContext context)
+        public PublicationService(StillGoodToGoContext context, PublicationMapper publicationMapper)
         {
             _context = context;
+            _publicationMapper = publicationMapper;
         }
 
-        public async Task<Publication> AddPublication(Publication publication)
+        public async Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto)
         {
-            if (_context.Publications == null)
-            {
-                throw new DbSetNotInitialize();
-            }
-
-            if (publication == null)
-            {
+            if (publicationDto == null)
                 throw new ParamIsNull();
-            }
 
-            var establishmentExists = _context.Establishments.Any(e => e.Id == publication.EstablishmentId);
-            if (establishmentExists)
-            {
-                _context.Publications.Add(publication);
-                await _context.SaveChangesAsync();
-                return publication;
-            }
-            else
-            {
+            // Check if the establishment exists
+            var establishmentExists = await _context.Establishments.AnyAsync(e => e.Id == publicationDto.EstablishmentId);
+            if (!establishmentExists)
                 throw new EstablishmentNotFound();
-            }
+
+            // Convert DTO to entity
+            var publication = _publicationMapper.PublicationRequestToPublication(publicationDto);
+
+            _context.Publications.Add(publication);
+            await _context.SaveChangesAsync();
+
+            // Return a DTO for security
+            return _publicationMapper.PublicationToPublicationResponse(publication);
         }
     }
 }
