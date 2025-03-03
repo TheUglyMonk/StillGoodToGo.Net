@@ -148,5 +148,42 @@ namespace StillGoodToGo.Services
 
             return establishment;
         }
+
+        /// <summary>
+        /// Deactivates an establishment in the database turning is active value to false.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        /// <exception cref="EstablishmentAlreadyDesactivated"></exception>
+        public async Task<Establishment> DeactivateEstablishment(int id)
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Locate the establishment by its id.
+            Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
+            if (establishment == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            if (!establishment.Active)
+            {
+                throw new EstablishmentAlreadyDesactivated();
+            }
+
+            // Deactivate the establishment.
+            establishment.Active = false;
+
+            // Save the changes to the database.
+            await _context.SaveChangesAsync();
+
+            return establishment;
+        }
     }
 }

@@ -17,5 +17,10 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Updates an establishment.
         /// </summary>
         Task<Establishment> UpdatesEstablishment(int id, Establishment establishment);
+
+        /// <summary>
+        /// Deactivates/Turns isActive to false an establishment.
+        /// </summary>
+        Task<Establishment> DeactivateEstablishment(int id);
     }
 }
