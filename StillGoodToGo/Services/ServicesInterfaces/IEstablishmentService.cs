@@ -22,5 +22,15 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Deactivates/Turns isActive to false an establishment.
         /// </summary>
         Task<Establishment> DeactivateEstablishment(int id);
+
+        /// <summary>
+        /// Gets establishments by id.
+        /// </summary>
+        Task<Establishment> GetEstablishmentById(int id);
+
+        /// <summary>
+        /// Gets estbalishment by Description.
+        /// </summary>
+        Task<Establishment> GetEstablishmentByDescription(string description);
     }
 }
