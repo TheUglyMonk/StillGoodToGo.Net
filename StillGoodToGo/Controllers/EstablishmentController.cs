@@ -150,6 +150,53 @@ namespace StillGoodToGo.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // GET api/establishment/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEstablishmentById(int id)
+        {
+            try
+            {
+                Establishment establishment = await _establishmentService.GetEstablishmentById(id);
+                EstablishmentResponseDto responseDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
+                return Ok(responseDto);
+            }
+            catch (NotFoundInDbSet ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidParam ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        // GET api/establishment/description/{description}
+        [HttpGet("description/{description}")]
+        public async Task<IActionResult> GetEstablishmentByDescription(string description)
+        {
+            try
+            {
+                Establishment establishment = await _establishmentService.GetEstablishmentByDescription(description);
+                EstablishmentResponseDto responseDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
+                return Ok(responseDto);
+            }
+            catch (NotFoundInDbSet ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidParam ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
-
