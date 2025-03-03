@@ -18,6 +18,7 @@ builder.Services.AddDbContext<StillGoodToGoContext>(options =>
 // Register services
 builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
 builder.Services.AddScoped<EstablishmentMapper>();
+builder.Services.AddScoped<IPublicationService, PublicationService>();
 
 var app = builder.Build();
 
