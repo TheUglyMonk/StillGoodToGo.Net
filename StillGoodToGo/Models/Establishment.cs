@@ -81,7 +81,7 @@ namespace StillGoodToGo.Models
         public List<Publication>? Publication { get; set; }
 
         [Required]
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the establishment class.
@@ -96,7 +96,7 @@ namespace StillGoodToGo.Models
         /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
         /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
         /// <param name="publication">A list of publications related to the establishment.</param>
-        public Establishment(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool isActive)
+        public Establishment(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool active)
         {
             Id = id;
             Username = username;
@@ -108,7 +108,7 @@ namespace StillGoodToGo.Models
             Longitude = longitude;
             Classification = classification;
             Publication = publication;
-            IsActive = isActive;
+            Active = active;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace StillGoodToGo.Models
             Latitude = latitude;
             Longitude = longitude;
             Classification = classification;
-            IsActive = true;
+            Active = true;
         }
 
         /// <summary>

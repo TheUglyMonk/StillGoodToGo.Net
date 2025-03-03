@@ -32,7 +32,7 @@ namespace StillGoodToGo.Mappers
                 establishmentResponse.Longitude,
                 establishmentResponse.Classification,
                 establishmentResponse.Publication,
-                establishmentResponse.IsActive
+                establishmentResponse.Active
             );
         }
 
@@ -73,7 +73,7 @@ namespace StillGoodToGo.Mappers
                 establishment.Longitude,
                 establishment.Classification,
                 establishment.Publication,
-                establishment.IsActive
+                establishment.Active
             );
         }
 

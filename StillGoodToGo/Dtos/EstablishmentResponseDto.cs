@@ -59,12 +59,12 @@ namespace StillGoodToGo.Dtos
         /// </summary>
         public List<Publication> Publication { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EstablishmentRequestDto"/> class.
         /// </summary>
-        public EstablishmentResponseDto(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool isActive)
+        public EstablishmentResponseDto(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool active)
         {
             Id = id;
             Username = username;
@@ -76,7 +76,7 @@ namespace StillGoodToGo.Dtos
             Longitude = longitude;
             Classification = classification;
             Publication = publication;
-            IsActive = isActive;
+            Active = active;
         }
     }
 }

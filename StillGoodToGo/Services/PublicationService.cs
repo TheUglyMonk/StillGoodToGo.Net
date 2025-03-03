@@ -41,5 +41,11 @@ namespace StillGoodToGo.Services
                 throw new EstablishmentNotFound();
             }
         }
+
+        //APAGAR
+        public Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
