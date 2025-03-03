@@ -3,10 +3,15 @@ using StillGoodToGo.DataContext;
 using StillGoodToGo.Services.ServicesInterfaces;
 using StillGoodToGo.Services;
 using StillGoodToGo.Mappers;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

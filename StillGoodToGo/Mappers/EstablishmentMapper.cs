@@ -47,6 +47,7 @@ namespace StillGoodToGo.Mappers
                 establishmentResponse.Email,
                 establishmentResponse.Password,
                 establishmentResponse.Description,
+                establishmentResponse.Categories,
                 establishmentResponse.Latitude,
                 establishmentResponse.Longitude,
                 establishmentResponse.Classification
@@ -86,6 +87,7 @@ namespace StillGoodToGo.Mappers
                 establishment.Email,
                 establishment.Password,
                 establishment.Description,
+                establishment.Categories,
                 establishment.Latitude,
                 establishment.Longitude,
                 establishment.Classification
