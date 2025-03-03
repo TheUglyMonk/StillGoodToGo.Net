@@ -77,9 +77,11 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Gets or sets the publications related to the establishment.
         /// </summary>
-
         [JsonIgnore]
         public List<Publication>? Publication { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the establishment class.
@@ -94,7 +96,7 @@ namespace StillGoodToGo.Models
         /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
         /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
         /// <param name="publication">A list of publications related to the establishment.</param>
-        public Establishment(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication)
+        public Establishment(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool isActive)
         {
             Id = id;
             Username = username;
@@ -106,12 +108,13 @@ namespace StillGoodToGo.Models
             Longitude = longitude;
             Classification = classification;
             Publication = publication;
+            IsActive = isActive;
         }
 
         /// <summary>
         /// Initializes a new instance of the establishment class.
         /// </summary>
-        public Establishment( string username, string email, string passsword, string description, List<Category> categories, double latitude, double longitude, double classification)
+        public Establishment(string username, string email, string passsword, string description, List<Category> categories, double latitude, double longitude, double classification)
         {
             Username = username;
             Email = email;
@@ -122,6 +125,7 @@ namespace StillGoodToGo.Models
             Latitude = latitude;
             Longitude = longitude;
             Classification = classification;
+            IsActive = true;
         }
 
         /// <summary>
