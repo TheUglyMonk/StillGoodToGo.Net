@@ -9,10 +9,18 @@ using StillGoodToGo.Services.ServicesInterfaces;
 
 namespace StillGoodToGo.Services
 {
+    /// <summary>
+    /// Publication Service.
+    /// </summary>
     public class PublicationService : IPublicationService
     {
         private readonly StillGoodToGoContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublicationService"/> class.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public PublicationService(StillGoodToGoContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -114,6 +122,53 @@ namespace StillGoodToGo.Services
             Console.WriteLine($"Total de resultados encontrados: {results.Count}");
 
             return results;
+        }
+
+        /// <summary>
+        /// Get all Publications
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        public async Task<List<Publication>> GetAllPublications()
+        {
+            // Check that the database context is initialized.
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            return await _context.Publications.ToListAsync();
+        }
+
+        /// <summary>
+        /// Gets Publication by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<Publication> GetPublicationById(int id)
+        {
+            // Check that the database context is initialized.
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the id is valid.
+            if (id <= 0)
+            {
+                throw new ParamIsNull();
+            }
+
+            var publication = await _context.Publications.FindAsync(id);
+
+            if (publication == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            return publication;
         }
     }
 }

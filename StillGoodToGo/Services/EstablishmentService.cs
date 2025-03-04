@@ -227,7 +227,7 @@ namespace StillGoodToGo.Services
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="InvalidParam"></exception>
         /// <exception cref="NotFoundInDbSet"></exception>
-        public async Task<Establishment> GetEstablishmentByDescription(string description)
+        public async Task<List<Establishment>> GetEstablishmentsByDescription(string description)
         {
             // Check that the database context is initialized.
             if (_context.Establishments == null)
@@ -242,16 +242,18 @@ namespace StillGoodToGo.Services
             }
 
             // Find the establishment by its description.
-            var establishment = await _context.Establishments
-                .FirstOrDefaultAsync(e => e.Description == description);
+            var establishments = await _context.Establishments
+             .Where(e => e.Description == description)
+             .ToListAsync();
 
             // Check if the establishment was found.
-            if (establishment == null)
+            if (establishments == null || !establishments.Any())
             {
                 throw new NotFoundInDbSet();
             }
 
-            return establishment;
+            return establishments;
+
         }
     }
 }

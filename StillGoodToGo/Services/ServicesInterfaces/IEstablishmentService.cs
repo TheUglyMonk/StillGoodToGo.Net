@@ -29,8 +29,8 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         Task<Establishment> GetEstablishmentById(int id);
 
         /// <summary>
-        /// Gets estbalishment by Description.
+        /// Gets estbalishments by Description.
         /// </summary>
-        Task<Establishment> GetEstablishmentByDescription(string description);
+        Task<List<Establishment>> GetEstablishmentsByDescription(string description);
     }
 }

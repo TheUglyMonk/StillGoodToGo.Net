@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using StillGoodToGo.Dtos;
 using StillGoodToGo.Exceptions;
@@ -151,14 +150,23 @@ namespace StillGoodToGo.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets an establishment by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/establishment/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEstablishmentById(int id)
         {
             try
             {
+                // Call the service to get the establishment by id.
                 Establishment establishment = await _establishmentService.GetEstablishmentById(id);
+
+                // Map the establishment to a response DTO.
                 EstablishmentResponseDto responseDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
+
                 return Ok(responseDto);
             }
             catch (NotFoundInDbSet ex)
@@ -175,15 +183,23 @@ namespace StillGoodToGo.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets Establishments by description
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
         // GET api/establishment/description/{description}
         [HttpGet("description/{description}")]
-        public async Task<IActionResult> GetEstablishmentByDescription(string description)
+        public async Task<IActionResult> GetEstablishmentsByDescription(string description)
         {
             try
             {
-                Establishment establishment = await _establishmentService.GetEstablishmentByDescription(description);
-                EstablishmentResponseDto responseDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
-                return Ok(responseDto);
+                // Call the service to get the establishments by description.
+                var establishments = await _establishmentService.GetEstablishmentsByDescription(description);
+                // Map the establishments to response DTOs.
+                var responseDtos = establishments.Select(e => _establishmentMapper.EstablishmentToEstablishmentResponse(e)).ToList();
+
+                return Ok(responseDtos);
             }
             catch (NotFoundInDbSet ex)
             {
