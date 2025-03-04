@@ -19,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StillGoodToGoContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("GoodToGoDotNetDB")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StillGoodToGoDB")));
 
 // Register services
 builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
@@ -27,9 +27,8 @@ builder.Services.AddScoped<EstablishmentMapper>();
 builder.Services.AddScoped<IPublicationService, PublicationService>();
 builder.Services.AddScoped<PublicationMapper>();
 
+
 // Service Injection
-builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();
-builder.Services.AddScoped<IPublicationService, PublicationService>();
 
 // Mapper Injection
 builder.Services.AddScoped<EstablishmentMapper>();
