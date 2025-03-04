@@ -43,6 +43,8 @@ namespace StillGoodToGo.Dtos
         /// </summary>
         public PublicationStatus Status { get; set; }
 
+        public PublicationResponseDto() { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicationResponseDto"/> class.
         /// </summary>
