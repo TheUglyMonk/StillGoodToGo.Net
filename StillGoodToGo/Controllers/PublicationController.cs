@@ -1,67 +1,179 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StillGoodToGo.Dtos;
+using StillGoodToGo.Enums;
 using StillGoodToGo.Exceptions;
 using StillGoodToGo.Mappers;
+using StillGoodToGo.Models;
+using StillGoodToGo.Services;
 using StillGoodToGo.Services.ServicesInterfaces;
 
 
-[ApiController]
-[Route("api/[controller]")]
-public class PublicationController : ControllerBase
+namespace StillGoodToGo.Controllers
 {
-    private readonly IPublicationService _publicationService;
-    private readonly PublicationMapper _publicationMapper;
-    private readonly ILogger<PublicationController> _logger;
-
-    public PublicationController(IPublicationService publicationService, PublicationMapper publicationMapper, ILogger<PublicationController> logger)
+    [ApiController]
+    [Route("api/publications")]
+    public class PublicationController : ControllerBase
     {
-        _publicationService = publicationService;
-        _publicationMapper = publicationMapper;
-        _logger = logger;
-    }
+        private readonly IPublicationService _publicationService;
+        private readonly PublicationMapper _publicationMapper;
 
-    [HttpPost]
-    public async Task<ActionResult> addPublication([FromBody] PublicationRequestDto publicationRequestDto)
-    {
-        try
+        public PublicationController(IPublicationService publicationService, PublicationMapper publicationMapper)
         {
-            _logger.LogInformation(@"Received PublicationRequestDto: {@PublicationRequestDto}", publicationRequestDto);
-            // Map the request DTO to a publication model
-            var publication = _publicationMapper.PublicationRequestToPublication(publicationRequestDto);
+            _publicationService = publicationService ?? throw new ArgumentNullException(nameof(publicationService));
+            _publicationMapper = publicationMapper;
+        }
 
-            // Add the publication to the database
-            var addedPublication = await _publicationService.AddPublication(publication);
+        [HttpPost]
+        public async Task<ActionResult<PublicationResponseDto>> CreatePublication([FromBody] PublicationRequestDto publicationDto)
+        {
+            try
+            {
+                var createdPublication = await _publicationService.AddPublication(publicationDto);
+                return CreatedAtAction(nameof(CreatePublication), new { id = createdPublication.Id }, createdPublication);
+            }
+            catch (EstablishmentNotFound)
+            {
+                return NotFound(new { message = "The specified establishment does not exist." });
+            }
+            catch (ParamIsNull)
+            {
+                return BadRequest(new { message = "The publication data is invalid." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            }
+        }
 
-            // Map the added publication to a response DTO and return it
-            var publicationResponseDto = _publicationMapper.PublicationToPublicationResponse(addedPublication);
+        [HttpGet("search")]
+        public async Task<IActionResult> GetPublications(
+                [FromQuery] Category? category,
+                [FromQuery] double? latitude,
+                [FromQuery] double? longitude,
+                [FromQuery] double? maxDistance,
+                [FromQuery] string? foodType,
+                [FromQuery] double? minDiscount)
+        {
+            try
+            {
+                var publications = await _publicationService.GetFilteredPublications(
+                    category, latitude, longitude, maxDistance, foodType, minDiscount);
+                return Ok(publications);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
-            // Return the response DTO
-            return Ok(publicationResponseDto);
-        }
-        catch(DbSetNotInitialize ex)
+        /// <summary>
+        /// Get all publications.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetPublications()
         {
-            _logger.LogError(ex, "DbSetNotInitialize error");
-            // Return a 500 error with a message
-            return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            try
+            {
+                // Get all publications
+                var publications = await _publicationService.GetAllPublications();
+
+                if (publications == null)
+                {
+                    return NotFound();
+                }
+
+                // Map publications to response dtos
+                var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
+
+                return Ok(responseDtos);
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { details = ex.Message });
+            }
+
         }
-        catch (ParamIsNull ex)
+
+        /// <summary>
+        /// Get publication by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPublicationById(int id)
         {
-            _logger.LogError(ex, "ParamIsNull error");
-            // Return a 400 error with a message
-            return BadRequest(new { message = "The publication data is invalid." });
+            try
+            {
+                // Get publication by id
+                var publication = await _publicationService.GetPublicationById(id);
+
+                // Check if publication was found
+                if (publication == null)
+                {
+                    return NotFound();
+                }
+
+                // Map publication to response dto
+                var responseDto = _publicationMapper.PublicationToPublicationResponse(publication);
+
+                return Ok(responseDto);
+            }
+            catch (ParamIsNull ex)
+            {
+                return BadRequest();
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            }
         }
-        catch (EstablishmentNotFound ex)
+
+
+        /// <summary>
+        /// Update publication.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="publicationDto"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePublication(int id, [FromBody] PublicationRequestDto publicationDto)
         {
-            _logger.LogError(ex, "EstablishmentNotFound error");
-            // Return a 404 error with a message
-            return NotFound(new { message = "The specified establishment does not exist." });
-        }
-        catch (Exception ex)
-        {
-            
-            _logger.LogError(ex, "Internal server error");
-            // Return a 500 error with a message
-            return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            try
+            {
+                // Map publication request dto to publication
+                Publication publication = _publicationMapper.PublicationRequestToPublication(publicationDto);
+
+                // Update publication
+                publication = await _publicationService.UpdatesPublication(id, publication);
+
+                // Map publication to response dto
+                return Ok(_publicationMapper.PublicationToPublicationResponse(publication));
+            }
+            catch (ParamIsNull ex)
+            {
+                return BadRequest();
+            }
+            catch (NotFoundInDbSet ex)
+            {
+                return NotFound();
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            }
         }
     }
 }

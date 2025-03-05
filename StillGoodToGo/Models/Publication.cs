@@ -75,7 +75,7 @@ namespace StillGoodToGo.Models
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
-            PostDate = postDate;
+            PostDate = DateTime.Now;
             EndDate = endDate;
             Status = status;
         }
@@ -94,7 +94,7 @@ namespace StillGoodToGo.Models
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
-            PostDate = postDate;
+            PostDate = DateTime.Now;
             EndDate = endDate;
             Status = status;
         }
