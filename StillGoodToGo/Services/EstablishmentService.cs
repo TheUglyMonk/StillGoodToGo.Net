@@ -255,5 +255,30 @@ namespace StillGoodToGo.Services
             return establishments;
 
         }
+
+        /// <summary>
+        /// Gets all establishments.
+        /// </summary>
+        /// <returns>The all establishments if found.</returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<List<Establishment>> GetEstablishments()
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            var establishments = await _context.Establishments.ToListAsync();
+
+            // Check if the establishment was found.
+            if (establishments == null || !establishments.Any())
+            {
+                throw new NotFoundInDbSet("No establishments found.");
+            }
+
+            return establishments;
+        }
     }
 }
