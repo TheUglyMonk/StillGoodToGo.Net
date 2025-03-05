@@ -4,6 +4,7 @@ using StillGoodToGo.Enums;
 using StillGoodToGo.Exceptions;
 using StillGoodToGo.Mappers;
 using StillGoodToGo.Models;
+using StillGoodToGo.Services;
 using StillGoodToGo.Services.ServicesInterfaces;
 
 
@@ -77,6 +78,11 @@ namespace StillGoodToGo.Controllers
                 // Get all publications
                 var publications = await _publicationService.GetAllPublications();
 
+                if (publications == null)
+                {
+                    return NotFound();
+                }
+
                 // Map publications to response dtos
                 var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
 
@@ -109,7 +115,7 @@ namespace StillGoodToGo.Controllers
                 // Check if publication was found
                 if (publication == null)
                 {
-                    return NotFound(new { message = "Publication not found." });
+                    return NotFound();
                 }
 
                 // Map publication to response dto
@@ -120,6 +126,45 @@ namespace StillGoodToGo.Controllers
             catch (ParamIsNull ex)
             {
                 return BadRequest();
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            }
+        }
+
+
+        /// <summary>
+        /// Update publication.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="publicationDto"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePublication(int id, [FromBody] PublicationRequestDto publicationDto)
+        {
+            try
+            {
+                // Map publication request dto to publication
+                Publication publication = _publicationMapper.PublicationRequestToPublication(publicationDto);
+
+                // Update publication
+                publication = await _publicationService.UpdatesPublication(id, publication);
+
+                // Map publication to response dto
+                return Ok(_publicationMapper.PublicationToPublicationResponse(publication));
+            }
+            catch (ParamIsNull ex)
+            {
+                return BadRequest();
+            }
+            catch (NotFoundInDbSet ex)
+            {
+                return NotFound();
             }
             catch (DbSetNotInitialize ex)
             {

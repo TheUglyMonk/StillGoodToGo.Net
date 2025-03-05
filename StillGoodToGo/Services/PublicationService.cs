@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StillGoodToGo.DataContext;
 using StillGoodToGo.Dtos;
 using StillGoodToGo.Enums;
@@ -167,6 +168,76 @@ namespace StillGoodToGo.Services
             {
                 throw new NotFoundInDbSet();
             }
+
+            return publication;
+        }
+
+        /// <summary>
+        /// Updates a publication
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedPublication"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="InvalidParam"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<Publication> UpdatesPublication(int id, Publication updatedPublication)
+        {
+            // Check that the database context is initialized.
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the updated publication is not null.
+            if (updatedPublication == null)
+            {
+                throw new ParamIsNull();
+            }
+
+            // Check that the updated publication has a description.
+            if (updatedPublication.Description.IsNullOrEmpty())
+            {
+                throw new InvalidParam("Description can not be empty");
+            }
+
+            // Check that the updated publication has a price.
+            if (updatedPublication.Price <= 0)
+            {
+                throw new InvalidParam("Price can not be empty");
+            }
+
+            // Check that the updated publication has a post date.
+            if (updatedPublication.EndDate == null)
+            {
+                throw new InvalidParam("EndDate can not be empty");
+            }
+
+            // Check that the updated publication has a post date.
+            if (updatedPublication.Status == null)
+            {
+                throw new InvalidParam("Status can not be empty");
+            }
+
+            // Find the publication by its id.
+            Publication publication = _context.Publications.FirstOrDefault(e => e.Id == id);
+
+            // Check that the publication exists.
+            if (publication == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            // Update the publication.
+            publication.Status = updatedPublication.Status;
+            publication.Description = updatedPublication.Description;
+            publication.EndDate = updatedPublication.EndDate;
+            publication.Price = updatedPublication.Price;
+            publication.PostDate = updatedPublication.PostDate;
+            publication.EstablishmentId = updatedPublication.EstablishmentId;
+
+            await _context.SaveChangesAsync();
 
             return publication;
         }

@@ -26,5 +26,13 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// </summary>
         /// <returns></returns>
         Task<List<Publication>> GetAllPublications();
+
+        /// <summary>
+        /// Updates a publication.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="publication"></param>
+        /// <returns></returns>
+        Task<Publication> UpdatesPublication(int id, Publication publication);
     }
 }
