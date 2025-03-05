@@ -1,5 +1,6 @@
 ﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StillGoodToGo.Models
 {
@@ -37,6 +38,7 @@ namespace StillGoodToGo.Models
         /// Price of the published item.
         /// </summary>
         [Required]
+        [NotNull]
         public double Price { get; set; }
 
         /// <summary>

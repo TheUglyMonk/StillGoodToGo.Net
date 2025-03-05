@@ -36,7 +36,38 @@ namespace StillGoodToGo.Services
                 if(!Enum.IsDefined(typeof(PublicationStatus), status)) { throw new InvalidStatusFound(); }
             }
 
+<<<<<<< Updated upstream
             await _context.Publications.AddAsync(publication);
+=======
+            if (publicationDto == null)
+            {
+                throw new ParamIsNull();
+            }
+
+            if (publicationDto.Price <= 0)
+            {
+                throw new InvalidPrice();
+            }
+
+            var establishment = await _context.Establishments.FindAsync(publicationDto.EstablishmentId);
+
+            if (establishment == null)
+            {
+                throw new EstablishmentNotFound();
+            }
+
+            var publication = new Publication
+            {
+                EstablishmentId = publicationDto.EstablishmentId,
+                Description = publicationDto.Description,
+                Price = publicationDto.Price,
+                PostDate = publicationDto.PostDate,
+                EndDate = publicationDto.EndDate,
+                Status = publicationDto.Status = PublicationStatus.Available
+            };
+
+            _context.Publications.Add(publication);
+>>>>>>> Stashed changes
             await _context.SaveChangesAsync();
 
             return publication;
