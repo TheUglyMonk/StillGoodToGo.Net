@@ -1,6 +1,5 @@
 ﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace StillGoodToGo.Models
 {
@@ -38,63 +37,46 @@ namespace StillGoodToGo.Models
         /// Price of the published item.
         /// </summary>
         [Required]
-        [NotNull]
         public double Price { get; set; }
 
         /// <summary>
-        /// Posting date of the publication.
+        /// Posting date of the publication (automatically assigned).
         /// </summary>
         [Required]
-        public DateTime PostDate { get; set; }
+        public DateTime PostDate { get; } = DateTime.Now;
 
         /// <summary>
         /// Expiration date of the publication.
         /// </summary>
         [Required]
+        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the list of status associated with the publication (Available, Sold, Unavailable).
         /// </summary>
         [Required]
-        public List<PublicationStatus> Status { get; set; }
+        public List<PublicationStatus> Status { get; set; } = new() { PublicationStatus.Available };
 
         /// <summary>
-        /// Constructor to create a publication with a specific ID.
-        /// </summary>
-        /// <param name="id">Unique identifier of the publication.</param>
-        /// <param name="establishmentId">Establishment responsible for the publication.</param>
-        /// <param name="description">Description of the publication.</param>
-        /// <param name="price">Price of the item.</param>
-        /// <param name="postDate">Posting date.</param>
-        /// <param name="endDate">Expiration date.</param>
-        /// <param name="status">Status of the publication.</param>
-        public Publication(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, List<PublicationStatus> status)
-        {
-            Id = id;
-            EstablishmentId = establishmentId;
-            Description = description;
-            Price = price;
-            PostDate = DateTime.Now;
-            EndDate = endDate;
-            Status = status;
-        }
-
-        /// <summary>
-        /// Constructor to create a new publication without an ID.
+        /// Constructor to create a publication.
         /// </summary>
         /// <param name="establishmentId">Establishment responsible for the publication.</param>
         /// <param name="description">Description of the publication.</param>
         /// <param name="price">Price of the item.</param>
-        /// <param name="postDate">Posting date.</param>
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
-        public Publication(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, List<PublicationStatus> status)
+        /// <exception cref="ArgumentException">Thrown when EndDate is not after PostDate.</exception>
+        public Publication(int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
         {
+            if (endDate <= PostDate)
+            {
+                throw new ArgumentException("EndDate must be later than PostDate.");
+            }
+
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
-            PostDate = DateTime.Now;
             EndDate = endDate;
             Status = status;
         }
@@ -102,8 +84,16 @@ namespace StillGoodToGo.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="Publication"/> class.
         /// </summary>
-        public Publication()
+        public Publication() { }
+
+        public Publication(int id, int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
         {
+            Id = id;
+            EstablishmentId = establishmentId;
+            Description = description;
+            Price = price;
+            EndDate = endDate;
+            Status = status;
         }
     }
 }
