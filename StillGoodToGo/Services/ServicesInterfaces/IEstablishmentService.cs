@@ -37,5 +37,10 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Gets allestbalishments.
         /// </summary>
         Task<List<Establishment>> GetEstablishments();
+
+        /// <summary>
+        /// Gets active allestbalishments.
+        /// </summary>
+        Task<List<Establishment>> GetActiveEstablishments();
     }
 }

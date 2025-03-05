@@ -247,5 +247,38 @@ namespace StillGoodToGo.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Gets all active Establishments
+        /// </summary>
+        /// <returns>List of active establishments</returns>
+        // GET api/establishment/active
+        [HttpGet("active")]
+        public async Task<IActionResult> GetActiveEstablishments()
+        {
+            try
+            {
+                // Call the service to get the establishments.
+                var establishments = await _establishmentService.GetActiveEstablishments();
+
+                // Map the establishments to response DTOs.
+                var responseDtos = establishments.Select(e => _establishmentMapper.EstablishmentToEstablishmentResponse(e)).ToList();
+
+                return Ok(responseDtos);
+            }
+
+            catch (NotFoundInDbSet ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }
