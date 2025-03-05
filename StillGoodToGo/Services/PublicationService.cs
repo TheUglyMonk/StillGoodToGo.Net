@@ -44,6 +44,16 @@ namespace StillGoodToGo.Services
                 throw new InvalidPrice();
             }
 
+            if (publicationDto.EndDate <= DateTime.Now)
+            {
+                throw new InvalidEndDate();
+            }
+
+            if (publicationDto.Status == null)
+            {
+                throw new InvalidStatus();
+            }
+
             var establishment = await _context.Establishments.FindAsync(publicationDto.EstablishmentId);
 
             if (establishment == null)
@@ -57,7 +67,7 @@ namespace StillGoodToGo.Services
                 Description = publicationDto.Description,
                 Price = publicationDto.Price,
                 EndDate = publicationDto.EndDate,
-                Status = publicationDto.Status = new () { PublicationStatus.Available }
+                Status = publicationDto.Status = PublicationStatus.Available
             };
 
             _context.Publications.Add(publication);
@@ -70,7 +80,7 @@ namespace StillGoodToGo.Services
                 Description = publication.Description,
                 Price = publication.Price,
                 EndDate = publication.EndDate,
-                Status = publication.Status = new () { PublicationStatus.Available }
+                Status = publication.Status = PublicationStatus.Available
             };
         }
 

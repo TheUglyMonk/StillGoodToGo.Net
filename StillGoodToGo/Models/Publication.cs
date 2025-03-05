@@ -49,14 +49,13 @@ namespace StillGoodToGo.Models
         /// Expiration date of the publication.
         /// </summary>
         [Required]
-        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the list of status associated with the publication (Available, Sold, Unavailable).
         /// </summary>
         [Required]
-        public List<PublicationStatus> Status { get; set; } = new() { PublicationStatus.Available };
+        public PublicationStatus Status { get; set; } = PublicationStatus.Available;
 
         /// <summary>
         /// Constructor to create a publication.
@@ -67,13 +66,9 @@ namespace StillGoodToGo.Models
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
         /// <exception cref="ArgumentException">Thrown when EndDate is not after PostDate.</exception>
-        public Publication(int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
+        public Publication(int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
-            if (endDate <= PostDate)
-            {
-                throw new ArgumentException("EndDate must be later than PostDate.");
-            }
-
+            
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
@@ -86,7 +81,7 @@ namespace StillGoodToGo.Models
         /// </summary>
         public Publication() { }
 
-        public Publication(int id, int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
+        public Publication(int id, int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
             Id = id;
             EstablishmentId = establishmentId;
