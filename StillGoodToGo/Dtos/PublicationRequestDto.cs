@@ -36,7 +36,7 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the status of the publication (active or inactive).
         /// </summary>
-        public PublicationStatus Status { get; set; }
+        public List<PublicationStatus> Status { get; set; } = new() { PublicationStatus.Available };
 
         /// <summary>
         /// Initializes a new instance of the PublicationResponseDto.
@@ -47,12 +47,22 @@ namespace StillGoodToGo.Dtos
         /// <param name="postDate">The posting date of the publication.</param>
         /// <param name="endDate">The expiration date of the publication.</param>
         /// <param name="status">The status of the publication.</param>
-        public PublicationRequestDto(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public PublicationRequestDto(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, List<PublicationStatus> status)
         {
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
-            PostDate = postDate;
+            EndDate = endDate;
+            Status = status;
+        }
+
+        public PublicationRequestDto() { }
+
+        public PublicationRequestDto(int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
+        {
+            EstablishmentId = establishmentId;
+            Description = description;
+            Price = price;
             EndDate = endDate;
             Status = status;
         }
