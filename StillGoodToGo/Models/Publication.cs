@@ -1,5 +1,6 @@
 ﻿using StillGoodToGo.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StillGoodToGo.Models
 {
@@ -55,6 +56,7 @@ namespace StillGoodToGo.Models
         /// Gets or sets the list of status associated with the publication (Available, Sold, Unavailable).
         /// </summary>
         [Required]
+        [Column(TypeName = "nvarchar(20)")] //make sure the enum is stored as a string in the database.
         public PublicationStatus Status { get; set; } = PublicationStatus.Available;
 
         /// <summary>
