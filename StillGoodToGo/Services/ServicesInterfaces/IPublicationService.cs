@@ -34,5 +34,28 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// <param name="publication"></param>
         /// <returns></returns>
         Task<Publication> UpdatesPublication(int id, Publication publication);
+
+        /// <summary>
+        /// Gets all publications from a specific establishment.
+        /// </summary>
+        /// <param name="establishmentId"></param>
+        /// <returns></returns>
+        Task<List<Publication>> GetPublicationsFromEstablishment(int establishmentId);
+
+        /// <summary>
+        /// Gets all publications with a specific status.
+        Task<List<Publication>>GetPublicationsWithStatus(int establishmentId, PublicationStatus status);
+
+        /// <summary>
+        /// Gets all publications with a status.
+        Task <List<Publication>> GetPublicationsByStatus(PublicationStatus status);
+
+        /// <summary>
+        /// Gets all publications with a specific price range.
+        /// </summary>
+        /// <param name="minPrice"></param>
+        /// <param name="maxPrice"></param>
+        /// <returns></returns>
+        Task<List<Publication>> GetPublicationsByPriceRange(double minPrice, double maxPrice);
     }
 }

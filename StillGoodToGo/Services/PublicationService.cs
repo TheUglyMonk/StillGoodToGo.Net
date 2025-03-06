@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.SqlServer.Server;
 using StillGoodToGo.DataContext;
 using StillGoodToGo.Dtos;
 using StillGoodToGo.Enums;
@@ -138,7 +139,14 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            return await _context.Publications.ToListAsync();
+            // Get all publications
+            var publications = await _context.Publications.ToListAsync();
+            if (publications == null || publications.Count == 0)
+            {
+                throw new NoPublicationsFound();
+            }
+
+            return publications;
         }
 
         /// <summary>
@@ -162,6 +170,7 @@ namespace StillGoodToGo.Services
                 throw new ParamIsNull();
             }
 
+            // Find the publication by its id.
             var publication = await _context.Publications.FindAsync(id);
 
             if (publication == null)
@@ -240,6 +249,161 @@ namespace StillGoodToGo.Services
             await _context.SaveChangesAsync();
 
             return publication;
+        }
+
+        /// <summary>
+        ///     Gets all publications from a specific establishment.
+        /// </summary>
+        /// <param name="establishmentId"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="NoPublicationsFound"></exception>
+        public async Task<List<Publication>> GetPublicationsFromEstablishment(int establishmentId)
+        {
+            // Check that the database context is initialized.
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the establishment id is valid.
+            if (establishmentId <= 0)
+            {
+                throw new ParamIsNull();
+            }
+
+            // Get all publications from the specified establishment.
+            var publications = await _context.Publications.Where(p => p.EstablishmentId == establishmentId).ToListAsync();
+            if (publications == null || publications.Count == 0)
+            {
+                throw new NoPublicationsFound();
+            }
+
+            return publications;
+        }
+
+        /// <summary>
+        /// Gets all publications with a specific status.
+        /// </summary>
+        /// <param name="establishmentId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="InvalidEnumValue"></exception>
+        /// <exception cref="NoPublicationsFound"></exception>
+        public async Task<List<Publication>> GetPublicationsWithStatus(int establishmentId, PublicationStatus status)
+        {
+            // Check that the database context is initialized.
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the establishment id is valid.
+            if (establishmentId <= 0)
+            {
+                throw new ParamIsNull();
+            }
+
+            // Check that the status is valid.
+            if (!Enum.IsDefined(typeof(PublicationStatus), status))
+            {
+                throw new InvalidEnumValue();
+            }
+
+            // Get all publications with the specified status.
+            var publications = await _context.Publications
+                                              .Where(p => p.EstablishmentId == establishmentId && p.Status == status)
+                                              .ToListAsync();
+
+            // Check that publications were found.
+            if (publications == null || publications.Count == 0)
+            {
+                throw new NoPublicationsFound();
+            }
+
+            return publications;
+        }
+
+        /// <summary>
+        ///     Gets all publications with a specific status.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidEnumValue"></exception>
+        /// <exception cref="NoPublicationsFound"></exception>
+        /// <exception cref="Exception"></exception>
+        public async Task<List<Publication>> GetPublicationsByStatus(PublicationStatus status)
+        {
+            try
+            {
+                // Check that the database context is initialized.
+                if (!Enum.IsDefined(typeof(PublicationStatus), status))
+                {
+                    throw new InvalidEnumValue();
+                }
+
+                // Get all publications with the specified status.
+                var publications = await _context.Publications
+                                                 .Where(p => p.Status == status)
+                                                 .ToListAsync();
+
+                // Check that publications were found.
+                if (publications == null || publications.Count == 0)
+                {
+                    throw new NoPublicationsFound();
+                }
+
+                return publications;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching publications by status", ex);
+            }
+        }
+
+        /// <summary>
+        /// Gets all publications with a specific price range.
+        /// </summary>
+        /// <param name="minPrice"></param>
+        /// <param name="maxPrice"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="InvalidParam"></exception>
+        /// <exception cref="NoPublicationsFound"></exception>
+        public async Task<List<Publication>> GetPublicationsByPriceRange(double minPrice, double maxPrice)
+        {
+            // Check that the database context is initialized.
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the price range is valid.
+            if (minPrice < 0 || maxPrice < 0)
+            {
+                throw new InvalidParam();
+            }
+
+            // Check that the min price is not greater than the max price.
+            if (minPrice > maxPrice)
+            {
+                throw new InvalidParam("Min price can not be greater than max price");
+            }
+
+            // Get all publications with a price within the specified range.
+            var publications = await _context.Publications
+                                              .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
+                                              .ToListAsync();
+
+            // Check that publications were found.
+            if (publications == null || publications.Count == 0)
+            {
+                throw new NoPublicationsFound();
+            }
+            return publications;
         }
     }
 }
