@@ -1,5 +1,4 @@
 ﻿using StillGoodToGo.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Dtos
 {
@@ -31,7 +30,7 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the date when the publication was created.
         /// </summary>
-        public DateTime PostDate { get; set; }
+        public DateTime PostDate { get;} = DateTime.Now;
 
         /// <summary>
         /// Gets or sets the expiration date of the publication.
@@ -41,7 +40,9 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the status of the publication (e.g., Active or Inactive).
         /// </summary>
-        public PublicationStatus Status { get; set; }
+        public PublicationStatus Status { get; set; } = PublicationStatus.Available;
+
+        public PublicationResponseDto() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicationResponseDto"/> class.
@@ -50,16 +51,14 @@ namespace StillGoodToGo.Dtos
         /// <param name="establishmentId">The ID of the establishment that owns this publication.</param>
         /// <param name="description">A short description of the publication.</param>
         /// <param name="price">The price of the published item.</param>
-        /// <param name="postDate">The date when the publication was created.</param>
         /// <param name="endDate">The expiration date of the publication.</param>
         /// <param name="status">The current status of the publication.</param>
-        public PublicationResponseDto(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
+        public PublicationResponseDto(int id, int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
             Id = id;
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
-            PostDate = postDate;
             EndDate = endDate;
             Status = status;
         }

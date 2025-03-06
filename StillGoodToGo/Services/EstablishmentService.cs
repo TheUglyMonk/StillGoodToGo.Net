@@ -5,6 +5,7 @@ using StillGoodToGo.Models;
 using StillGoodToGo.Services.ServicesInterfaces;
 using StillGoodToGo.Exceptions;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace StillGoodToGo.Services
@@ -147,6 +148,137 @@ namespace StillGoodToGo.Services
             await _context.SaveChangesAsync();
 
             return establishment;
+        }
+
+        /// <summary>
+        /// Deactivates an establishment in the database turning is active value to false.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        /// <exception cref="EstablishmentAlreadyDesactivated"></exception>
+        public async Task<Establishment> DeactivateEstablishment(int id)
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Locate the establishment by its id.
+            Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
+            if (establishment == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            // Check if the establishment is already deactivated.
+            if (!establishment.Active)
+            {
+                throw new EstablishmentAlreadyDesactivated();
+            }
+
+            // Deactivate the establishment.
+            establishment.Active = false;
+
+            // Save the changes to the database.
+            await _context.SaveChangesAsync();
+
+            return establishment;
+        }
+
+        /// <summary>
+        /// Gets an establishment by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier.</param>
+        /// <returns>The establishment if found.</returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<Establishment> GetEstablishmentById(int id)
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the id is valid.
+            if (id == null || id <= 0)
+            {
+                throw new InvalidParam();
+            }
+
+            // Find the establishment by its id.
+            var establishment = await _context.Establishments.FindAsync(id);
+            if (establishment == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            return establishment;
+        }
+
+        /// <summary>
+        /// Gets an establishment by its description.
+        /// </summary>
+        /// <param name="description">The description to search for.</param>
+        /// <returns>The establishment if found.</returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="InvalidParam"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<List<Establishment>> GetEstablishmentsByDescription(string description)
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            // Check that the description is valid.
+            if (string.IsNullOrEmpty(description))
+            {
+                throw new InvalidParam();
+            }
+
+            // Find the establishment by its description.
+            var establishments = await _context.Establishments
+             .Where(e => e.Description == description)
+             .ToListAsync();
+
+            // Check if the establishment was found.
+            if (establishments == null || !establishments.Any())
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            return establishments;
+
+        }
+
+        /// <summary>
+        /// Gets all establishments.
+        /// </summary>
+        /// <returns>The all establishments if found.</returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<List<Establishment>> GetEstablishments()
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            var establishments = await _context.Establishments.ToListAsync();
+
+            // Check if the establishment was found.
+            if (establishments == null || !establishments.Any())
+            {
+                throw new NotFoundInDbSet("No establishments found.");
+            }
+
+            return establishments;
         }
     }
 }
