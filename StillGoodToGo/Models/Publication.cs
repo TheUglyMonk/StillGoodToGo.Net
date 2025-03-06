@@ -56,7 +56,6 @@ namespace StillGoodToGo.Models
         /// Gets or sets the list of status associated with the publication (Available, Sold, Unavailable).
         /// </summary>
         [Required]
-        [Column(TypeName = "nvarchar(20)")] //make sure the enum is stored as a string in the database.
         public PublicationStatus Status { get; set; } = PublicationStatus.Available;
 
         /// <summary>
@@ -70,7 +69,6 @@ namespace StillGoodToGo.Models
         /// <exception cref="ArgumentException">Thrown when EndDate is not after PostDate.</exception>
         public Publication(int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
-            
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
