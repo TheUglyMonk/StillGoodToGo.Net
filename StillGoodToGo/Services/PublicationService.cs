@@ -58,7 +58,7 @@ namespace StillGoodToGo.Services
                 Description = publicationDto.Description,
                 Price = publicationDto.Price,
                 EndDate = publicationDto.EndDate,
-                Status = publicationDto.Status = new () { PublicationStatus.Available }
+                Status = publicationDto.Status = PublicationStatus.Available
             };
 
             _context.Publications.Add(publication);
@@ -71,7 +71,7 @@ namespace StillGoodToGo.Services
                 Description = publication.Description,
                 Price = publication.Price,
                 EndDate = publication.EndDate,
-                Status = publication.Status = new () { PublicationStatus.Available }
+                Status = publicationDto.Status = PublicationStatus.Available
             };
         }
 
