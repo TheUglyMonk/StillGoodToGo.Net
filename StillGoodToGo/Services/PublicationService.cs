@@ -317,11 +317,11 @@ namespace StillGoodToGo.Services
 
             // Get all publications with the specified status.
             var publications = await _context.Publications
-                                              .Where(p => p.EstablishmentId == establishmentId && p.Status == status)
+                                              .Where(p => p.EstablishmentId == establishmentId && p.Status.ToString() == status.ToString())
                                               .ToListAsync();
 
             // Check that publications were found.
-            if (publications == null || publications.Count == 0)
+            if (publications == null)
             {
                 throw new NoPublicationsFound();
             }
