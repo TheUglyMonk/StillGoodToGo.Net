@@ -52,14 +52,17 @@ namespace StillGoodToGo.Services
                 throw new EstablishmentNotFound();
             }
 
-            var publication = new Publication
+            Publication publication = new Publication
             {
                 EstablishmentId = publicationDto.EstablishmentId,
                 Description = publicationDto.Description,
                 Price = publicationDto.Price,
+                PostDate = DateTime.Now,
                 EndDate = publicationDto.EndDate,
-                Status = publicationDto.Status = PublicationStatus.Available
+                Status  = PublicationStatus.Available
             };
+
+            Console.WriteLine(publication);
 
             _context.Publications.Add(publication);
             await _context.SaveChangesAsync();
@@ -70,6 +73,7 @@ namespace StillGoodToGo.Services
                 EstablishmentId = publication.EstablishmentId,
                 Description = publication.Description,
                 Price = publication.Price,
+                PostDate = publication.PostDate,
                 EndDate = publication.EndDate,
                 Status = publicationDto.Status = PublicationStatus.Available
             };
