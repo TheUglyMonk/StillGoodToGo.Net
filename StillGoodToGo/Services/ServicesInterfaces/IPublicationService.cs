@@ -10,8 +10,23 @@ namespace StillGoodToGo.Services.ServicesInterfaces
     /// </summary>
     public interface IPublicationService
     {
+        /// <summary>
+        /// Adds a new publication to the database.
+        /// </summary>
+        /// <param name="publicationDto"></param>
+        /// <returns></returns>
         Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto);
 
+        /// <summary>
+        /// Gets all publications from a specific search.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <param name="maxDistance"></param>
+        /// <param name="foodType"></param>
+        /// <param name="minDiscount"></param>
+        /// <returns></returns>
         Task<List<Publication>> GetFilteredPublications(Category? category, double? latitude, double? longitude, double? maxDistance, string? foodType, double? minDiscount);
 
         /// <summary>

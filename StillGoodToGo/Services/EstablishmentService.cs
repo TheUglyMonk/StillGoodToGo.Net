@@ -84,43 +84,61 @@ namespace StillGoodToGo.Services
             return establishment;
         }
 
+        /// <summary>
+        /// Updates an establishment in the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedEstablishment"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="InvalidParam"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<Establishment> UpdatesEstablishment(int id, Establishment updatedEstablishment)
         {
-
+            // Check that the database context is initialized.
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
             }
 
+            // Check that the establishment is not null.
             if (updatedEstablishment == null)
             {
                 throw new ParamIsNull();
             }
 
+            // Check that the establishment has a valid id.
             if (updatedEstablishment.Email.IsNullOrEmpty())
             {
                 throw new InvalidParam("Email can not be empty");
             }
 
+            // Check that the establishment has a valid email.
             if (updatedEstablishment.Password.IsNullOrEmpty())
             {
                 throw new InvalidParam("Password can not be empty");
             }
 
+            // Check that the establishment has a valid email.
             if (updatedEstablishment.Username.IsNullOrEmpty())
             {
                 throw new InvalidParam("Username can not be empty");
             }
 
+            // Check that the establishment has a valid email.
             Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
 
+            // Check that the establishment was found.
             if (establishment == null)
             {
                 throw new NotFoundInDbSet();
             }
 
+            // Check if the email is unique.
             if (updatedEstablishment.Email != establishment.Email)
             {
+                // Check if the email is unique.
                 Establishment establishmenexists = _context.Establishments.FirstOrDefault(e => e.Email == updatedEstablishment.Email);
                 if (establishmenexists != null)
                 {
@@ -128,6 +146,7 @@ namespace StillGoodToGo.Services
                 }
             }
 
+            // Check if the location is unique.
             if (updatedEstablishment.Latitude != establishment.Latitude || updatedEstablishment.Longitude != establishment.Longitude)
             {
                 Establishment establishmenexists = _context.Establishments.FirstOrDefault(e => e.Latitude == updatedEstablishment.Latitude && e.Longitude == updatedEstablishment.Longitude);
@@ -137,6 +156,7 @@ namespace StillGoodToGo.Services
                 }
             }
 
+            // Update the establishment.
             establishment.Username = updatedEstablishment.Username;
             establishment.Email = updatedEstablishment.Email;
             establishment.Password = updatedEstablishment.Password;
@@ -211,6 +231,8 @@ namespace StillGoodToGo.Services
 
             // Find the establishment by its id.
             var establishment = await _context.Establishments.FindAsync(id);
+
+            // Check if the establishment was found.
             if (establishment == null)
             {
                 throw new NotFoundInDbSet();
@@ -270,6 +292,7 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
+            // Find all establishments.
             var establishments = await _context.Establishments.ToListAsync();
 
             // Check if the establishment was found.
