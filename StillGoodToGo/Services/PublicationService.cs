@@ -330,6 +330,41 @@ namespace StillGoodToGo.Services
                 throw new NoPublicationsFound();
             }
 
+            // If the requested status is "Available", update all found publications' statuses.
+            if (status == PublicationStatus.Available)
+            {
+                publications = await UpdatePublicationsStatus(publications);
+            }
+
+            return publications;
+        }
+
+        /// <summary>
+        ///    Updates the status of a list of publications.
+        /// </summary>
+        /// <param name="publications"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<List<Publication>> UpdatePublicationsStatus(List<Publication> publications)
+        {
+            // Check that publications were provided.
+            if (publications == null || !publications.Any())
+            {
+                throw new ArgumentException("No publications provided for status update.");
+            }
+
+            // Update the status of each publication.
+            foreach (var publication in publications)
+            {
+                // Check if the publication's end date has passed.
+                if (publication.EndDate < DateTime.Now)
+                {
+                    publication.Status = PublicationStatus.Unavailable;
+                }
+            }
+            // Save the changes to the database.
+            await _context.SaveChangesAsync();
+
             return publications;
         }
 

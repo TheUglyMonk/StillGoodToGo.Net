@@ -43,7 +43,7 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         Task<List<Publication>> GetPublicationsFromEstablishment(int establishmentId);
 
         /// <summary>
-        /// Gets all publications with a specific status.
+        /// Gets all publications From Establishment with a specific status.
         Task<List<Publication>>GetPublicationsWithStatus(int establishmentId, PublicationStatus status);
 
         /// <summary>
@@ -57,5 +57,12 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// <param name="maxPrice"></param>
         /// <returns></returns>
         Task<List<Publication>> GetPublicationsByPriceRange(double minPrice, double maxPrice);
+
+        /// <summary>
+        /// Updates the status of a list of publications using enddate.
+        /// </summary>
+        /// <param name="publications"></param>
+        /// <returns></returns>
+        Task<List<Publication>> UpdatePublicationsStatus(List<Publication> publications);
     }
 }
