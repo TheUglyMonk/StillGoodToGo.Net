@@ -132,7 +132,6 @@ namespace StillGoodToGo.Models
         /// Initializes a new instance of the <see cref="Establishment"/> class.
         /// </summary>
         public Establishment()
-        {
-        }
+        {}
     }
 }

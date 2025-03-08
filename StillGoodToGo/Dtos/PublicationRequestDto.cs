@@ -36,7 +36,7 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the status of the publication (active or inactive).
         /// </summary>
-        public List<PublicationStatus> Status { get; set; } = new() { PublicationStatus.Available };
+        public PublicationStatus Status { get; set; } = PublicationStatus.Available;
 
         /// <summary>
         /// Initializes a new instance of the PublicationResponseDto.
@@ -47,7 +47,7 @@ namespace StillGoodToGo.Dtos
         /// <param name="postDate">The posting date of the publication.</param>
         /// <param name="endDate">The expiration date of the publication.</param>
         /// <param name="status">The status of the publication.</param>
-        public PublicationRequestDto(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, List<PublicationStatus> status)
+        public PublicationRequestDto(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             EstablishmentId = establishmentId;
             Description = description;
@@ -56,9 +56,20 @@ namespace StillGoodToGo.Dtos
             Status = status;
         }
 
+        /// <summary>
+        /// Empty constructor for the PublicationResponseDto.
+        /// </summary>
         public PublicationRequestDto() { }
 
-        public PublicationRequestDto(int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
+        /// <summary>
+        /// Initializes a new instance of the PublicationResponseDto.
+        /// </summary>
+        /// <param name="establishmentId"></param>
+        /// <param name="description"></param>
+        /// <param name="price"></param>
+        /// <param name="endDate"></param>
+        /// <param name="status"></param>
+        public PublicationRequestDto(int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
             EstablishmentId = establishmentId;
             Description = description;

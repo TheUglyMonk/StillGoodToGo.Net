@@ -14,8 +14,14 @@ namespace StillGoodToGo.Controllers
     [Route("api/[controller]")]
     public class EstablishmentController : ControllerBase
     {
-
+        /// <summary>
+        /// Service for the establishment entity.
+        /// </summary>
         private readonly IEstablishmentService _establishmentService;
+
+        /// <summary>
+        /// Mapper for the establishment entity.
+        /// </summary>
         private readonly EstablishmentMapper _establishmentMapper;
 
         /// <summary>
@@ -81,15 +87,24 @@ namespace StillGoodToGo.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an establishment in the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="establishmentDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEstablishment(int id, [FromBody] EstablishmentRequestDto establishmentDto)
         {
             try
             {
+                // Map the request DTO to an establishment model
                 Establishment establishment = _establishmentMapper.EstablishmentRequestToEstablishment(establishmentDto);
 
+                // Call the service to update the establishment
                 establishment = await _establishmentService.UpdatesEstablishment(id, establishment);
 
+                // Map the updated establishment to a response DTO and return it
                 return Ok(_establishmentMapper.EstablishmentToEstablishmentResponse(establishment));
             }
             catch (DbSetNotInitialize e)
@@ -130,22 +145,18 @@ namespace StillGoodToGo.Controllers
             }
             catch (DbSetNotInitialize ex)
             {
-                // Indicates a configuration error or similar internal problem.
                 return StatusCode(500, ex.Message);
             }
             catch (NotFoundInDbSet ex)
             {
-                // Establishment with the provided id wasn't found.
                 return NotFound(ex.Message);
             }
             catch (EstablishmentAlreadyDesactivated ex)
             {
-                // Establishment is already deactivated.
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                // Generic error.
                 return BadRequest(ex.Message);
             }
         }

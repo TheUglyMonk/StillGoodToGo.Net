@@ -1,5 +1,4 @@
 ﻿using StillGoodToGo.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Dtos
 {
@@ -31,7 +30,7 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the date when the publication was created.
         /// </summary>
-        public DateTime PostDate { get;} = DateTime.Now;
+        public DateTime PostDate { get; set; }
 
         /// <summary>
         /// Gets or sets the expiration date of the publication.
@@ -41,7 +40,7 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets the status of the publication (e.g., Active or Inactive).
         /// </summary>
-        public List<PublicationStatus> Status { get; set; } = new() { PublicationStatus.Available };
+        public PublicationStatus Status { get; set; } = PublicationStatus.Available;
 
         public PublicationResponseDto() { }
 
@@ -52,15 +51,18 @@ namespace StillGoodToGo.Dtos
         /// <param name="establishmentId">The ID of the establishment that owns this publication.</param>
         /// <param name="description">A short description of the publication.</param>
         /// <param name="price">The price of the published item.</param>
+        /// <param name="postDate">The post date of the publication.</param>
         /// <param name="endDate">The expiration date of the publication.</param>
         /// <param name="status">The current status of the publication.</param>
-        public PublicationResponseDto(int id, int establishmentId, string description, double price, DateTime endDate, List<PublicationStatus> status)
+        public PublicationResponseDto(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             Id = id;
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
+            PostDate = postDate;
             EndDate = endDate;
+            PostDate = postDate;
             Status = status;
         }
     }
