@@ -291,5 +291,26 @@ namespace StillGoodToGo.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost("addProfit/{id}")]
+        public async Task<IActionResult> AddsAmountReceived(int id, [FromBody] double amount)
+        {
+            try
+            {
+                Establishment establishment = await _establishmentService.AddsAmountReceived(id, amount);
+
+                var establishmentDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
+
+                return Ok(establishmentDto);
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

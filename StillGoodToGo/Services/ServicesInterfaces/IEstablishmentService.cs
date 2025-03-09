@@ -42,5 +42,10 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Gets active allestbalishments.
         /// </summary>
         Task<List<Establishment>> GetActiveEstablishments();
+
+        /// <summary>
+        /// Adds Amount Received on sale
+        /// </summary>
+        Task<Establishment> AddsAmountReceived(int id, double amount);
     }
 }

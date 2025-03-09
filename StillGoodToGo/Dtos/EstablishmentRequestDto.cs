@@ -55,6 +55,8 @@ namespace StillGoodToGo.Dtos
         /// </summary>
         public bool IsActive { get; set; }
 
+        public double TotalAmountReceived { get; set; }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EstablishmentRequestDto"/> class.
@@ -68,7 +70,7 @@ namespace StillGoodToGo.Dtos
         /// <param name="longitude">The longitude coordinate of the establishment's location.</param>
         /// <param name="classification">The classification rating of the establishment (0 to 5).</param>
         /// <param name="publication">A list of publications related to the establishment.</param>
-        public EstablishmentRequestDto(string username, string email, string password, string description, List<Category>? categories, double latitude, double longitude, double classification)
+        public EstablishmentRequestDto(string username, string email, string password, string description, List<Category>? categories, double latitude, double longitude, double classification, double totalAmountReceived)
         {
             Username = username;
             Email = email;
@@ -79,6 +81,7 @@ namespace StillGoodToGo.Dtos
             Longitude = longitude;
             Classification = classification;
             IsActive = true;
+            TotalAmountReceived = totalAmountReceived;
         }
     }
 }

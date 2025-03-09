@@ -328,5 +328,21 @@ namespace StillGoodToGo.Services
 
             return establishments;
         }
+
+        public async Task<Establishment> AddsAmountReceived(int id, double amount) 
+        {
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            Establishment establishment = await GetEstablishmentById(id);
+
+            establishment.TotalAmountReceived = establishment.TotalAmountReceived  + amount;
+
+            await _context.SaveChangesAsync();
+
+            return establishment;
+        }
     }
 }
