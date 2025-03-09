@@ -293,11 +293,11 @@ namespace StillGoodToGo.Controllers
         }
 
         [HttpPost("addProfit/{id}")]
-        public async Task<IActionResult> AddsAmountReceived(int id, [FromBody] double amount)
+        public async Task<IActionResult> AddsAmountReceived(int id, [FromBody] ProfitRequestDto profit)
         {
             try
             {
-                Establishment establishment = await _establishmentService.AddsAmountReceived(id, amount);
+                Establishment establishment = await _establishmentService.AddsAmountReceived(id, profit.Value);
 
                 var establishmentDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
 
