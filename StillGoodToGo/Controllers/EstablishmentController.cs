@@ -14,14 +14,8 @@ namespace StillGoodToGo.Controllers
     [Route("api/[controller]")]
     public class EstablishmentController : ControllerBase
     {
-        /// <summary>
-        /// Service for the establishment entity.
-        /// </summary>
-        private readonly IEstablishmentService _establishmentService;
 
-        /// <summary>
-        /// Mapper for the establishment entity.
-        /// </summary>
+        private readonly IEstablishmentService _establishmentService;
         private readonly EstablishmentMapper _establishmentMapper;
 
         /// <summary>
@@ -87,24 +81,15 @@ namespace StillGoodToGo.Controllers
             }
         }
 
-        /// <summary>
-        /// Updates an establishment in the database.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="establishmentDto"></param>
-        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEstablishment(int id, [FromBody] EstablishmentRequestDto establishmentDto)
         {
             try
             {
-                // Map the request DTO to an establishment model
                 Establishment establishment = _establishmentMapper.EstablishmentRequestToEstablishment(establishmentDto);
 
-                // Call the service to update the establishment
                 establishment = await _establishmentService.UpdatesEstablishment(id, establishment);
 
-                // Map the updated establishment to a response DTO and return it
                 return Ok(_establishmentMapper.EstablishmentToEstablishmentResponse(establishment));
             }
             catch (DbSetNotInitialize e)
@@ -145,18 +130,22 @@ namespace StillGoodToGo.Controllers
             }
             catch (DbSetNotInitialize ex)
             {
+                // Indicates a configuration error or similar internal problem.
                 return StatusCode(500, ex.Message);
             }
             catch (NotFoundInDbSet ex)
             {
+                // Establishment with the provided id wasn't found.
                 return NotFound(ex.Message);
             }
             catch (EstablishmentAlreadyDesactivated ex)
             {
+                // Establishment is already deactivated.
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
+                // Generic error.
                 return BadRequest(ex.Message);
             }
         }
@@ -250,103 +239,6 @@ namespace StillGoodToGo.Controllers
                 return NotFound(ex.Message);
             }
             catch (DbSetNotInitialize ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Gets all active Establishments
-        /// </summary>
-        /// <returns>List of active establishments</returns>
-        // GET api/establishment/active
-        [HttpGet("active")]
-        public async Task<IActionResult> GetActiveEstablishments()
-        {
-            try
-            {
-                // Call the service to get the establishments.
-                var establishments = await _establishmentService.GetActiveEstablishments();
-
-                // Map the establishments to response DTOs.
-                var responseDtos = establishments.Select(e => _establishmentMapper.EstablishmentToEstablishmentResponse(e)).ToList();
-
-                return Ok(responseDtos);
-            }
-
-            catch (NotFoundInDbSet ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (DbSetNotInitialize ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Adds a profit amount to the total received for an establishment.
-        /// </summary>
-        /// <param name="id">The ID of the establishment.</param>
-        /// <param name="profit">The profit amount to be added.</param>
-        /// <returns>The updated establishment details.</returns>
-        /// <response code="200">Returns the updated establishment details.</response>
-        /// <response code="404">If the establishment is not found.</response>
-        /// <response code="500">If an internal server error occurs.</response>
-        // POST api/establishment/addProfit/{id}
-        [HttpPost("addProfit/{id}")]
-        public async Task<IActionResult> AddsAmountReceived(int id, [FromBody] ProfitRequestDto profit)
-        {
-            try
-            {
-                Establishment establishment = await _establishmentService.AddsAmountReceived(id, profit.Value);
-                
-                var establishmentDto = _establishmentMapper.EstablishmentToEstablishmentResponse(establishment);
-
-                return Ok(establishmentDto);
-            }
-            catch (DbSetNotInitialize ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-
-        /// <summary>
-        /// Gets Establishments by email
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        // GET api/establishment/email
-        [HttpGet("email/{email}")]
-        public async Task<IActionResult> GetEstablishmentByEmail(string email)
-        {
-            try
-            {
-                var establishment = await _establishmentService.GetEstablishmentByEmail(email);
-
-                if (establishment == null)
-                {
-                    return BadRequest();
-                }
-
-                var responseDto = _establishmentMapper.EstablishmentToEstablishmentRequest(establishment);
-
-                return Ok(responseDto);
-            }
-            catch (NotFoundInDbSet ex)
             {
                 return NotFound(ex.Message);
             }

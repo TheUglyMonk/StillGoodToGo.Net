@@ -56,19 +56,8 @@ namespace StillGoodToGo.Dtos
             Status = status;
         }
 
-        /// <summary>
-        /// Empty constructor for the PublicationResponseDto.
-        /// </summary>
         public PublicationRequestDto() { }
 
-        /// <summary>
-        /// Initializes a new instance of the PublicationResponseDto.
-        /// </summary>
-        /// <param name="establishmentId"></param>
-        /// <param name="description"></param>
-        /// <param name="price"></param>
-        /// <param name="endDate"></param>
-        /// <param name="status"></param>
         public PublicationRequestDto(int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
             EstablishmentId = establishmentId;

@@ -73,8 +73,7 @@ namespace StillGoodToGo.Mappers
                 establishment.Longitude,
                 establishment.Classification,
                 establishment.Publication,
-                establishment.Active,
-                establishment.TotalAmountReceived
+                establishment.Active
             );
         }
 
@@ -93,8 +92,7 @@ namespace StillGoodToGo.Mappers
                 establishment.Categories,
                 establishment.Latitude,
                 establishment.Longitude,
-                establishment.Classification,
-                establishment.TotalAmountReceived
+                establishment.Classification
             );
         }
     }

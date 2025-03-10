@@ -83,8 +83,6 @@ namespace StillGoodToGo.Models
         [Required]
         public bool Active { get; set; }
 
-        public double TotalAmountReceived { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the establishment class.
         /// </summary>
@@ -111,7 +109,6 @@ namespace StillGoodToGo.Models
             Classification = classification;
             Publication = publication;
             Active = active;
-            TotalAmountReceived = 0;
         }
 
         /// <summary>
@@ -129,13 +126,13 @@ namespace StillGoodToGo.Models
             Longitude = longitude;
             Classification = classification;
             Active = true;
-            TotalAmountReceived = 0;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Establishment"/> class.
         /// </summary>
         public Establishment()
-        {}
+        {
+        }
     }
 }

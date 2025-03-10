@@ -83,61 +83,43 @@ namespace StillGoodToGo.Services
             return establishment;
         }
 
-        /// <summary>
-        /// Updates an establishment in the database.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="updatedEstablishment"></param>
-        /// <returns></returns>
-        /// <exception cref="DbSetNotInitialize"></exception>
-        /// <exception cref="ParamIsNull"></exception>
-        /// <exception cref="InvalidParam"></exception>
-        /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<Establishment> UpdatesEstablishment(int id, Establishment updatedEstablishment)
         {
-            // Check that the database context is initialized.
+
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the establishment is not null.
             if (updatedEstablishment == null)
             {
                 throw new ParamIsNull();
             }
 
-            // Check that the establishment has a valid id.
             if (updatedEstablishment.Email.IsNullOrEmpty())
             {
                 throw new InvalidParam("Email can not be empty");
             }
 
-            // Check that the establishment has a valid email.
             if (updatedEstablishment.Password.IsNullOrEmpty())
             {
                 throw new InvalidParam("Password can not be empty");
             }
 
-            // Check that the establishment has a valid email.
             if (updatedEstablishment.Username.IsNullOrEmpty())
             {
                 throw new InvalidParam("Username can not be empty");
             }
 
-            // Check that the establishment has a valid email.
             Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
 
-            // Check that the establishment was found.
             if (establishment == null)
             {
                 throw new NotFoundInDbSet();
             }
 
-            // Check if the email is unique.
             if (updatedEstablishment.Email != establishment.Email)
             {
-                // Check if the email is unique.
                 Establishment establishmenexists = _context.Establishments.FirstOrDefault(e => e.Email == updatedEstablishment.Email);
                 if (establishmenexists != null)
                 {
@@ -145,7 +127,6 @@ namespace StillGoodToGo.Services
                 }
             }
 
-            // Check if the location is unique.
             if (updatedEstablishment.Latitude != establishment.Latitude || updatedEstablishment.Longitude != establishment.Longitude)
             {
                 Establishment establishmenexists = _context.Establishments.FirstOrDefault(e => e.Latitude == updatedEstablishment.Latitude && e.Longitude == updatedEstablishment.Longitude);
@@ -155,7 +136,6 @@ namespace StillGoodToGo.Services
                 }
             }
 
-            // Update the establishment.
             establishment.Username = updatedEstablishment.Username;
             establishment.Email = updatedEstablishment.Email;
             establishment.Password = updatedEstablishment.Password;
@@ -230,8 +210,6 @@ namespace StillGoodToGo.Services
 
             // Find the establishment by its id.
             var establishment = await _context.Establishments.FindAsync(id);
-
-            // Check if the establishment was found.
             if (establishment == null)
             {
                 throw new NotFoundInDbSet();
@@ -291,83 +269,15 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            // Find all establishments.
             var establishments = await _context.Establishments.ToListAsync();
 
-            // Check if any establishments were found.
+            // Check if the establishment was found.
             if (establishments == null || !establishments.Any())
             {
                 throw new NotFoundInDbSet("No establishments found.");
             }
 
             return establishments;
-        }
-
-        /// <summary>
-        /// Gets all active establishments.
-        /// </summary>
-        /// <returns>The all establishments if found.</returns>
-        /// <exception cref="DbSetNotInitialize"></exception>
-        /// <exception cref="NotFoundInDbSet"></exception>
-        public async Task<List<Establishment>> GetActiveEstablishments()
-        {
-            // Check that the database context is initialized.
-            if (_context.Establishments == null)
-            {
-                throw new DbSetNotInitialize();
-            }
-
-            var establishments = await _context.Establishments.Where(e => e.Active == true).ToListAsync();
-
-            // Check if any establishments were found.
-            if (establishments == null || !establishments.Any())
-            {
-                throw new NotFoundInDbSet("No establishments found.");
-            }
-
-            return establishments;
-        }
-
-        /// <summary>
-        /// Adds the specified amount to the total amount received for the establishment with the given id.
-        /// </summary>
-        /// <param name="id">The id of the establishment.</param>
-        /// <param name="amount">The amount to add.</param>
-        /// <returns>The updated establishment.</returns>
-        /// <exception cref="DbSetNotInitialize">Thrown when the establishment DbSet is not initialized.</exception>
-        public async Task<Establishment> AddsAmountReceived(int id, double amount) 
-        {
-            if (_context.Establishments == null)
-            {
-                throw new DbSetNotInitialize();
-            }
-
-            Establishment establishment = await GetEstablishmentById(id);
-
-            establishment.TotalAmountReceived = establishment.TotalAmountReceived  + amount;
-
-            await _context.SaveChangesAsync();
-
-            return establishment;
-        }
-
-        /// <summary>
-        /// Retrieves an establishment based on its email address.
-        /// </summary>
-        /// <param name="email">The email address of the establishment.</param>
-        /// <returns>The establishment if found, or null if no establishment matches the given email.</returns>
-        /// <exception cref="DbSetNotInitialize">Thrown when the establishment DbSet is not initialized.</exception>
-        public async Task<Establishment> GetEstablishmentByEmail(string email)
-        {
-            if (_context.Establishments == null)
-            {
-                throw new DbSetNotInitialize();
-            }
-
-            var establishment = await  _context.Establishments.FirstOrDefaultAsync(e => e.Email == email);
-
-            return establishment;
-
         }
     }
 }
