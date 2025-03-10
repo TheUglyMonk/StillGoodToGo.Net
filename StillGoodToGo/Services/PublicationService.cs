@@ -408,5 +408,23 @@ namespace StillGoodToGo.Services
             }
             return publications;
         }
+
+        public async Task<List<Publication>> GetAvailablePublications()
+        {
+            if (_context.Publications == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            var publications = await _context.Publications
+                                              .Where(p => p.Status == PublicationStatus.Available)
+                                              .ToListAsync();
+
+            if (publications == null || publications.Count == 0)
+            {
+                throw new NoPublicationsFound();
+            }
+            return publications;
+        }
     }
 }

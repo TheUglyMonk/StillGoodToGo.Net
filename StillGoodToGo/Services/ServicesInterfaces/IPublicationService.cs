@@ -57,5 +57,9 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// <param name="maxPrice"></param>
         /// <returns></returns>
         Task<List<Publication>> GetPublicationsByPriceRange(double minPrice, double maxPrice);
+
+        /// <summary>
+        /// Gets all available publications.
+        Task<List<Publication>> GetAvailablePublications();
     }
 }

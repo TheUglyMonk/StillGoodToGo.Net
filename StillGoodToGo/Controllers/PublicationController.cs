@@ -33,7 +33,7 @@ namespace StillGoodToGo.Controllers
                 var createdPublication = await _publicationService.AddPublication(publication);
 
                 var publicationResponseDto = _publicationMapper.PublicationToPublicationResponse(publication);
-                return Ok(publicationResponseDto);         
+                return Ok(publicationResponseDto);
             }
             catch (EstablishmentNotFound)
             {
@@ -340,6 +340,42 @@ namespace StillGoodToGo.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Get publications by price range.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("available")]
+        public async Task<IActionResult> GetAvailablePublications()
+        {
+            try
+            {
+                var publications = await _publicationService.GetAvailablePublications();
+
+                // Check if any publications are found
+                if (publications == null || !publications.Any())
+                {
+                    return NotFound();
+                }
+
+                // Map publications to response DTOs
+                var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
+
+                return Ok(responseDtos);
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (NoPublicationsFound ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
             }
         }
     }
