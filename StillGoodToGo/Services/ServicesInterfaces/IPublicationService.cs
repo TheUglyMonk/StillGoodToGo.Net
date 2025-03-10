@@ -57,5 +57,16 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// <param name="maxPrice"></param>
         /// <returns></returns>
         Task<List<Publication>> GetPublicationsByPriceRange(double minPrice, double maxPrice);
+
+        /// <summary>
+        /// Updates the status of a list of publications using enddate.
+        /// </summary>
+        /// <param name="publications"></param>
+        /// <returns></returns>
+        Task<List<Publication>> UpdatePublicationsStatus(List<Publication> publications);
+
+        /// <summary>
+        /// Gets all available publications.
+        Task<List<Publication>> GetAvailablePublications();
     }
 }
