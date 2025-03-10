@@ -24,12 +24,16 @@ namespace StillGoodToGo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PublicationResponseDto>> CreatePublication([FromBody] PublicationRequestDto publicationDto)
+        public async Task<ActionResult> CreatePublication([FromBody] PublicationRequestDto publicationRequestDto)
         {
             try
             {
-                var createdPublication = await _publicationService.AddPublication(publicationDto);
-                return CreatedAtAction(nameof(CreatePublication), new { id = createdPublication.Id }, createdPublication);
+                var publication = _publicationMapper.PublicationRequestToPublication(publicationRequestDto);
+
+                var createdPublication = await _publicationService.AddPublication(publication);
+
+                var publicationResponseDto = _publicationMapper.PublicationToPublicationResponse(publication);
+                return Ok(publicationResponseDto);         
             }
             catch (EstablishmentNotFound)
             {

@@ -10,7 +10,7 @@ namespace StillGoodToGo.Services.ServicesInterfaces
     /// </summary>
     public interface IPublicationService
     {
-        Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto);
+        Task<Publication> AddPublication(Publication publication);
 
         Task<List<Publication>> GetFilteredPublications(Category? category, double? latitude, double? longitude, double? maxDistance, string? foodType, double? minDiscount);
 

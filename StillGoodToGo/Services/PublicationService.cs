@@ -28,53 +28,44 @@ namespace StillGoodToGo.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<PublicationResponseDto> AddPublication(PublicationRequestDto publicationDto)
+        public async Task<Publication> AddPublication(Publication publication)
         {
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            if (publicationDto == null)
+            if (publication == null)
             {
                 throw new ParamIsNull();
             }
 
-            if(publicationDto.Price <= 0)
+            if(publication.Price <= 0)
             {
                 throw new InvalidPrice();
             }
 
-            if (publicationDto.EndDate <= DateTime.Now)
+            if (publication.EndDate <= DateTime.Now)
             {
                 throw new InvalidEndDate();
             }
 
-            if (publicationDto.Status == null)
+            if (publication.Status == null)
             {
                 throw new InvalidStatus();
             }
 
-            var establishment = await _context.Establishments.FindAsync(publicationDto.EstablishmentId);
+            var establishment = await _context.Establishments.FindAsync(publication.EstablishmentId);
 
             if (establishment == null)
             {
                 throw new EstablishmentNotFound();
             }
 
-            var publication = new Publication
-            {
-                EstablishmentId = publicationDto.EstablishmentId,
-                Description = publicationDto.Description,
-                Price = publicationDto.Price,
-                EndDate = publicationDto.EndDate,
-                Status = publicationDto.Status = PublicationStatus.Available
-            };
-
             _context.Publications.Add(publication);
             await _context.SaveChangesAsync();
 
-            return new PublicationResponseDto
+            return new Publication
             {
                 Id = publication.Id,
                 EstablishmentId = publication.EstablishmentId,
