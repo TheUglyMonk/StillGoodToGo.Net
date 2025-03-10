@@ -47,5 +47,10 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Adds Amount Received on sale
         /// </summary>
         Task<Establishment> AddsAmountReceived(int id, double amount);
+
+        /// <summary>
+        /// Gets establishments by email.
+        /// </summary>
+        Task<Establishment> GetEstablishmentByEmail(string email);
     }
 }

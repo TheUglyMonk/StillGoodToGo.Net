@@ -329,6 +329,13 @@ namespace StillGoodToGo.Services
             return establishments;
         }
 
+        /// <summary>
+        /// Adds the specified amount to the total amount received for the establishment with the given id.
+        /// </summary>
+        /// <param name="id">The id of the establishment.</param>
+        /// <param name="amount">The amount to add.</param>
+        /// <returns>The updated establishment.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the establishment DbSet is not initialized.</exception>
         public async Task<Establishment> AddsAmountReceived(int id, double amount) 
         {
             if (_context.Establishments == null)
@@ -343,6 +350,25 @@ namespace StillGoodToGo.Services
             await _context.SaveChangesAsync();
 
             return establishment;
+        }
+
+        /// <summary>
+        /// Retrieves an establishment based on its email address.
+        /// </summary>
+        /// <param name="email">The email address of the establishment.</param>
+        /// <returns>The establishment if found, or null if no establishment matches the given email.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the establishment DbSet is not initialized.</exception>
+        public async Task<Establishment> GetEstablishmentByEmail(string email)
+        {
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            var establishment = await  _context.Establishments.FirstOrDefaultAsync(e => e.Email == email);
+
+            return establishment;
+
         }
     }
 }

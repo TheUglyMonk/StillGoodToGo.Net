@@ -53,7 +53,7 @@ namespace StillGoodToGo.Dtos
         /// <summary>
         /// Gets or sets if the establishment is active/visible
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
 
         public double TotalAmountReceived { get; set; }
 
@@ -80,7 +80,7 @@ namespace StillGoodToGo.Dtos
             Latitude = latitude;
             Longitude = longitude;
             Classification = classification;
-            IsActive = true;
+            Active = true;
             TotalAmountReceived = totalAmountReceived;
         }
     }
