@@ -1,4 +1,5 @@
 ﻿using StillGoodToGo.Enums;
+using StillGoodToGo.Migrations;
 using StillGoodToGo.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -59,12 +60,15 @@ namespace StillGoodToGo.Dtos
         /// </summary>
         public List<Publication> Publication { get; set; }
 
+        public double TotalAmountReceived { get; set; }
+
+
         public bool Active { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EstablishmentRequestDto"/> class.
         /// </summary>
-        public EstablishmentResponseDto(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool active)
+        public EstablishmentResponseDto(int id, string username, string email, Role role, string description, List<Category> categories, double latitude, double longitude, double classification, List<Publication> publication, bool active, double totalAmountReceived)
         {
             Id = id;
             Username = username;
@@ -77,6 +81,7 @@ namespace StillGoodToGo.Dtos
             Classification = classification;
             Publication = publication;
             Active = active;
+            TotalAmountReceived = totalAmountReceived;
         }
     }
 }

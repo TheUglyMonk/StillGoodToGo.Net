@@ -36,6 +36,14 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         Task<Publication> UpdatesPublication(int id, Publication publication);
 
         /// <summary>
+        /// Updates a publication's status.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        Task<Publication> UpdatesPublicationStatus(int id, PublicationStatus status);
+
+        /// <summary>
         /// Gets all publications from a specific establishment.
         /// </summary>
         /// <param name="establishmentId"></param>
@@ -61,5 +69,12 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// <summary>
         /// Gets all available publications.
         Task<List<Publication>> GetAvailablePublications();
+
+        /// <summary>
+        /// Updates the status of a list of publications using enddate.
+        /// </summary>
+        /// <param name="publications"></param>
+        /// <returns></returns>
+        Task<List<Publication>> UpdatePublicationsStatus();
     }
 }

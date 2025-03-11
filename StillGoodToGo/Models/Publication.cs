@@ -44,7 +44,7 @@ namespace StillGoodToGo.Models
         /// Posting date of the publication (automatically assigned).
         /// </summary>
         [Required]
-        public DateTime PostDate { get; } = DateTime.Now;
+        public DateTime PostDate { get; set; }
 
         /// <summary>
         /// Expiration date of the publication.
@@ -68,12 +68,13 @@ namespace StillGoodToGo.Models
         /// <param name="endDate">Expiration date.</param>
         /// <param name="status">Status of the publication.</param>
         /// <exception cref="ArgumentException">Thrown when EndDate is not after PostDate.</exception>
-        public Publication(int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
+        public Publication(int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
+            PostDate = postDate;
             EndDate = endDate;
             Status = status;
         }
@@ -83,12 +84,13 @@ namespace StillGoodToGo.Models
         /// </summary>
         public Publication() { }
 
-        public Publication(int id, int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
+        public Publication(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             Id = id;
             EstablishmentId = establishmentId;
             Description = description;
             Price = price;
+            PostDate = postDate;
             EndDate = endDate;
             Status = status;
         }

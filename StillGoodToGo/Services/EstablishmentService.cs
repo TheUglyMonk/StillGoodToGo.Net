@@ -76,6 +76,9 @@ namespace StillGoodToGo.Services
                 }
             }
 
+            //Ensures classification starts at 0
+            establishment.Classification = 0;
+
             // Adds establishment to the database
             await _context.Establishments.AddAsync(establishment);
             await _context.SaveChangesAsync();
@@ -278,6 +281,77 @@ namespace StillGoodToGo.Services
             }
 
             return establishments;
+        }
+
+        /// <summary>
+        /// Gets all active establishments.
+        /// </summary>
+        /// <returns>The all active establishments if found.</returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="NotFoundInDbSet"></exception>
+        public async Task<List<Establishment>> GetActiveEstablishments()
+        {
+            // Check that the database context is initialized.
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            var establishments = await _context.Establishments.ToListAsync();
+
+            // Check if the establishment was found.
+            if (establishments == null || !establishments.Any())
+            {
+                throw new NotFoundInDbSet("No establishments found.");
+            }
+
+            return establishments;
+        }
+
+        /// <summary>
+        /// Adds the specified amount to the total amount received for the establishment with the given id.
+        /// </summary>
+        /// <param name="id">The id of the establishment.</param>
+        /// <param name="amount">The amount to add.</param>
+        /// <returns>The updated establishment.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the establishment DbSet is not initialized.</exception>
+        public async Task<Establishment> AddsAmountReceived(int id, double amount)
+        {
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            Establishment establishment = await GetEstablishmentById(id);
+
+            establishment.TotalAmountReceived = establishment.TotalAmountReceived + amount;
+
+            await _context.SaveChangesAsync();
+
+            return establishment;
+        }
+
+        /// <summary>
+        /// Retrieves an establishment based on its email address.
+        /// </summary>
+        /// <param name="email">The email address of the establishment.</param>
+        /// <returns>The establishment if found, or null if no establishment matches the given email.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the establishment DbSet is not initialized.</exception>
+        public async Task<Establishment> GetEstablishmentByEmail(string email)
+        {
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            var establishment = await _context.Establishments.FirstOrDefaultAsync(e => e.Email == email);
+
+            if (establishment == null)
+            {
+                throw new EstablishmentNotFound("Establishment not found.");
+            }
+
+            return establishment;
         }
     }
 }

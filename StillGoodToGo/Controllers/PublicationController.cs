@@ -164,15 +164,53 @@ namespace StillGoodToGo.Controllers
             }
             catch (ParamIsNull ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             catch (NotFoundInDbSet ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (DbSetNotInitialize ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error.", details = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Update publication' status.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="publicationDto"></param>
+        /// <returns></returns>
+        [HttpPut("updatestatus/{id}")]
+        public async Task<IActionResult> UpdatesPublicationStatus(int id, [FromBody] PublicationStatus status)
+        {
+            try
+            {
+                // Get publication by id
+                Publication publication = await _publicationService.GetPublicationById(id); ;
+
+                // Update publication
+                publication = await _publicationService.UpdatesPublicationStatus(id, status);
+
+                // Map publication to response dto
+                return Ok(_publicationMapper.PublicationToPublicationResponse(publication));
+            }
+            catch(ParamIsNull ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundInDbSet ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (DbSetNotInitialize ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -203,11 +241,11 @@ namespace StillGoodToGo.Controllers
             }
             catch (ParamIsNull ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             catch (DbSetNotInitialize ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -241,19 +279,19 @@ namespace StillGoodToGo.Controllers
             }
             catch (InvalidEnumValue ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             catch (NoPublicationsFound)
             {
                 return NotFound(new { message = "No publications found" });
             }
-            catch (ParamIsNull)
+            catch (ParamIsNull ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
-            catch (DbSetNotInitialize)
+            catch (DbSetNotInitialize ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -331,11 +369,11 @@ namespace StillGoodToGo.Controllers
             }
             catch (ParamIsNull ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             catch (NoPublicationsFound ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
