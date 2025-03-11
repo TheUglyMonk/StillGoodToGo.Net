@@ -25,6 +25,7 @@ namespace StillGoodToGo.Mappers
                 publicationDto.EstablishmentId,
                 publicationDto.Description,
                 publicationDto.Price,
+                DateTime.Now,
                 publicationDto.EndDate,
                 publicationDto.Status
             );
@@ -43,6 +44,7 @@ namespace StillGoodToGo.Mappers
                 publicationDto.EstablishmentId,
                 publicationDto.Description,
                 publicationDto.Price,
+                DateTime.Now,
                 publicationDto.EndDate,
                 publicationDto.Status
             );
@@ -60,6 +62,7 @@ namespace StillGoodToGo.Mappers
                 publication.EstablishmentId,
                 publication.Description,
                 publication.Price,
+                DateTime.Now,
                 publication.EndDate,
                 publication.Status
             );
@@ -78,6 +81,7 @@ namespace StillGoodToGo.Mappers
                 publication.EstablishmentId,
                 publication.Description,
                 publication.Price,
+                publication.PostDate,
                 publication.EndDate,
                 publication.Status
             );
