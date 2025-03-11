@@ -461,12 +461,16 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            var publications = await UpdatePublicationsStatus();
+            await UpdatePublicationsStatus();
 
+            List<Publication> publications = await _context.Publications
+                                                          .Where(p => p.Status == PublicationStatus.Available)
+                                                          .ToListAsync();
             if (publications == null || publications.Count == 0)
             {
                 throw new NoPublicationsFound();
             }
+            
             return publications;
         }
 
