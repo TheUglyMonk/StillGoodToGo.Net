@@ -1,7 +1,5 @@
 ﻿using StillGoodToGo.Enums;
-using StillGoodToGo.Migrations;
 using StillGoodToGo.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace StillGoodToGo.Dtos
 {
