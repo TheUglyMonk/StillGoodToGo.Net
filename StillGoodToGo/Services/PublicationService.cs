@@ -27,7 +27,17 @@ namespace StillGoodToGo.Services
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-
+        /// <summary>
+        /// Adds a new publication to the database.
+        /// </summary>
+        /// <param name="publication">The publication entity to be added.</param>
+        /// <returns>Returns the created publication.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the database context is not initialized.</exception>
+        /// <exception cref="ParamIsNull">Thrown when the provided publication data is null.</exception>
+        /// <exception cref="InvalidPrice">Thrown when the publication price is less than or equal to zero.</exception>
+        /// <exception cref="InvalidEndDate">Thrown when the publication's end date is in the past.</exception>
+        /// <exception cref="InvalidParam">Thrown when the description is too short.</exception>
+        /// <exception cref="EstablishmentNotFound">Thrown when the establishment associated with the publication is not found.</exception>
         public async Task<Publication> AddPublication(Publication publication)
         {
             if (_context.Publications == null)
@@ -40,7 +50,7 @@ namespace StillGoodToGo.Services
                 throw new ParamIsNull();
             }
 
-            if(publication.Price <= 0)
+            if (publication.Price <= 0)
             {
                 throw new InvalidPrice();
             }
@@ -76,27 +86,33 @@ namespace StillGoodToGo.Services
             };
         }
 
+        /// <summary>
+        /// Retrieves a filtered list of publications based on specified criteria.
+        /// </summary>
+        /// <param name="category">The category of the publication.</param>
+        /// <param name="latitude">The latitude for location-based filtering.</param>
+        /// <param name="longitude">The longitude for location-based filtering.</param>
+        /// <param name="maxDistance">The maximum distance for filtering.</param>
+        /// <param name="foodType">The type of food associated with the publication.</param>
+        /// <param name="minDiscount">The minimum discount value to filter publications.</param>
+        /// <returns>Returns a list of publications that match the filtering criteria.</returns>
         public async Task<List<Publication>> GetFilteredPublications(Category? category, double? latitude, double? longitude, double? maxDistance, string? foodType, double? minDiscount)
         {
             IQueryable<Publication> query = _context.Publications.Include(p => p.Establishment);
 
-            // LOG PARA VER SE EXISTEM PUBLICAÇÕES
-            Console.WriteLine($"Total de publicações no BD: {_context.Publications.Count()}");
+            Console.WriteLine($"Total publications in DB: {_context.Publications.Count()}");
 
-            // Filtrar por categoria do estabelecimento
             if (category.HasValue)
             {
                 query = query.Where(p => p.Establishment.Categories.Contains(category.Value));
-                Console.WriteLine($"Filtrando por categoria: {category.Value}");
+                Console.WriteLine($"Filtering by category: {category.Value}");
             }
 
-            // Filtrar apenas pela longitude se fornecida
             if (longitude.HasValue)
             {
                 query = query.Where(p => p.Establishment.Longitude == longitude.Value);
             }
 
-            // Filtrar por localização (latitude, longitude, raio)
             if (latitude.HasValue && longitude.HasValue && maxDistance.HasValue)
             {
                 query = query.Where(p =>
@@ -106,29 +122,28 @@ namespace StillGoodToGo.Services
                         Math.Sin(Math.PI * latitude.Value / 180) * Math.Sin(Math.PI * p.Establishment.Latitude / 180)
                     )) <= maxDistance.Value
                 );
-                Console.WriteLine($"Filtrando por localização: {latitude.Value}, {longitude.Value}, {maxDistance.Value}");
+                Console.WriteLine($"Filtering by location: {latitude.Value}, {longitude.Value}, {maxDistance.Value}");
             }
 
-            // Filtrar pelo tipo de alimento na descrição
             if (!string.IsNullOrEmpty(foodType))
             {
                 query = query.Where(p => p.Description.Contains(foodType));
-                Console.WriteLine($"Filtrando por tipo de alimento: {foodType}");
+                Console.WriteLine($"Filtering by food type: {foodType}");
             }
 
-            // Filtrar por nível de desconto
             if (minDiscount.HasValue)
             {
                 query = query.Where(p => p.Price < minDiscount.Value);
-                Console.WriteLine($"Filtrando por desconto mínimo: {minDiscount.Value}");
+                Console.WriteLine($"Filtering by minimum discount: {minDiscount.Value}");
             }
 
             var results = await query.ToListAsync();
 
-            Console.WriteLine($"Total de resultados encontrados: {results.Count}");
+            Console.WriteLine($"Total results found: {results.Count}");
 
             return results;
         }
+
 
         /// <summary>
         /// Get all Publications
@@ -137,13 +152,11 @@ namespace StillGoodToGo.Services
         /// <exception cref="DbSetNotInitialize"></exception>
         public async Task<List<Publication>> GetAllPublications()
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Get all publications
             var publications = await _context.Publications.ToListAsync();
             if (publications == null || publications.Count == 0)
             {
@@ -162,19 +175,16 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<Publication> GetPublicationById(int id)
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the id is valid.
             if (id <= 0)
             {
                 throw new ParamIsNull();
             }
 
-            // Find the publication by its id.
             var publication = await _context.Publications.FindAsync(id);
 
             if (publication == null)
@@ -197,25 +207,21 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<Publication> UpdatesPublication(int id, Publication updatedPublication)
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the updated publication is not null.
             if (updatedPublication == null)
             {
                 throw new ParamIsNull();
             }
 
-            // Check that the updated publication has a description.
             if (updatedPublication.Description.IsNullOrEmpty())
             {
                 throw new InvalidParam("Description can not be empty");
             }
 
-            // Check that the updated publication has a price.
             if (updatedPublication.Price <= 0)
             {
                 throw new InvalidParam("Price can not be empty");
@@ -231,17 +237,13 @@ namespace StillGoodToGo.Services
                 throw new InvalidParam("Can't update an publication to sold, only unavailable");
             }
 
-            // Find the publication by its id.
             Publication publication = _context.Publications.FirstOrDefault(e => e.Id == id);
 
-            // Check that the publication exists.
             if (publication == null)
             {
                 throw new NotFoundInDbSet();
             }
 
-
-            // Update the publication.
             publication.Status = updatedPublication.Status;
             publication.Description = updatedPublication.Description;
             publication.EndDate = updatedPublication.EndDate;
@@ -265,22 +267,18 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<Publication> UpdatesPublicationStatus(int id, PublicationStatus status)
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Ensures status exists
             if (!Enum.IsDefined(typeof(PublicationStatus), status))
             {
                 throw new InvalidEnumValue("Invalid status.");
             }
 
-            // Find the publication by its id.
             Publication publication = _context.Publications.FirstOrDefault(e => e.Id == id);
 
-            // Check that the publication exists.
             if (publication == null)
             {
                 throw new NotFoundInDbSet();
@@ -303,19 +301,16 @@ namespace StillGoodToGo.Services
         /// <exception cref="NoPublicationsFound"></exception>
         public async Task<List<Publication>> GetPublicationsFromEstablishment(int establishmentId)
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the establishment id is valid.
             if (establishmentId <= 0)
             {
                 throw new ParamIsNull();
             }
 
-            // Get all publications from the specified establishment.
             var publications = await _context.Publications.Where(p => p.EstablishmentId == establishmentId).ToListAsync();
             if (publications == null || publications.Count == 0)
             {
@@ -337,30 +332,25 @@ namespace StillGoodToGo.Services
         /// <exception cref="NoPublicationsFound"></exception>
         public async Task<List<Publication>> GetPublicationsWithStatus(int establishmentId, PublicationStatus status)
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the establishment id is valid.
             if (establishmentId <= 0)
             {
                 throw new ParamIsNull();
             }
 
-            // Check that the status is valid.
             if (!Enum.IsDefined(typeof(PublicationStatus), status))
             {
                 throw new InvalidEnumValue();
             }
 
-            // Get all publications with the specified status.
             var publications = await _context.Publications
                                               .Where(p => p.EstablishmentId == establishmentId && p.Status == status)
                                               .ToListAsync();
 
-            // Check that publications were found.
             if (publications == null || publications.Count == 0)
             {
                 throw new NoPublicationsFound();
@@ -381,24 +371,20 @@ namespace StillGoodToGo.Services
         {
             try
             {
-                // Check that the database context is initialized.
                 if (_context.Publications == null)
                 {
                     throw new DbSetNotInitialize();
                 }
 
-                // Ensures status exists
                 if (!Enum.IsDefined(typeof(PublicationStatus), status))
                 {
                     throw new InvalidEnumValue("Invalid status.");
                 }
 
-                // Get all publications with the specified status.
                 var publications = await _context.Publications
                                                  .Where(p => p.Status == status)
                                                  .ToListAsync();
 
-                // Check that publications were found.
                 if (publications == null || publications.Count == 0)
                 {
                     throw new NoPublicationsFound();
@@ -423,30 +409,25 @@ namespace StillGoodToGo.Services
         /// <exception cref="NoPublicationsFound"></exception>
         public async Task<List<Publication>> GetPublicationsByPriceRange(double minPrice, double maxPrice)
         {
-            // Check that the database context is initialized.
             if (_context.Publications == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the price range is valid.
             if (minPrice < 0 || maxPrice < 0)
             {
                 throw new InvalidParam();
             }
 
-            // Check that the min price is not greater than the max price.
             if (minPrice > maxPrice)
             {
                 throw new InvalidParam("Min price can not be greater than max price");
             }
 
-            // Get all publications with a price within the specified range.
             var publications = await _context.Publications
                                               .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
                                               .ToListAsync();
 
-            // Check that publications were found.
             if (publications == null || publications.Count == 0)
             {
                 throw new NoPublicationsFound();
@@ -454,6 +435,12 @@ namespace StillGoodToGo.Services
             return publications;
         }
 
+        /// <summary>
+        /// Retrieves a list of available publications.
+        /// </summary>
+        /// <returns>Returns a list of publications with status 'Available'.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the database context is not initialized.</exception>
+        /// <exception cref="NoPublicationsFound">Thrown when no available publications are found.</exception>
         public async Task<List<Publication>> GetAvailablePublications()
         {
             if (_context.Publications == null)
@@ -461,15 +448,26 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            var publications = await UpdatePublicationsStatus();
+            var updated = await UpdatePublicationsStatus();
 
+            var publications = await _context.Publications.Where(p => p.Status == PublicationStatus.Available)
+                                              .ToListAsync();
+
+            
             if (publications == null || publications.Count == 0)
             {
                 throw new NoPublicationsFound();
             }
+
             return publications;
         }
 
+        /// <summary>
+        /// Updates the status of publications based on their end date.
+        /// </summary>
+        /// <returns>Returns a list of updated publications that have changed status.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the database context is not initialized.</exception>
+        /// <exception cref="NoPublicationsFound">Thrown when no available publications are found.</exception>
         public async Task<List<Publication>> UpdatePublicationsStatus()
         {
             if (_context.Publications == null)
@@ -478,8 +476,8 @@ namespace StillGoodToGo.Services
             }
 
             List<Publication> publications = await _context.Publications
-                                                          .Where(p => p.Status == PublicationStatus.Available)
-                                                          .ToListAsync();
+                                                           .Where(p => p.Status == PublicationStatus.Available)
+                                                           .ToListAsync();
 
             if (publications == null || publications.Count == 0)
             {
@@ -495,7 +493,6 @@ namespace StillGoodToGo.Services
                     p.Status = PublicationStatus.Unavailable;
                     publicationsUpdated.Add(p);
                 }
-                    
             }
 
             await _context.SaveChangesAsync();
