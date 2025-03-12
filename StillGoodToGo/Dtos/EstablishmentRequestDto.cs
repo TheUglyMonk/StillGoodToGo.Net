@@ -1,11 +1,5 @@
 ﻿using StillGoodToGo.Enums;
-<<<<<<< HEAD
-using StillGoodToGo.Models;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-=======
 
->>>>>>> a7b0652c8b4b4965ccf2a8375761986b02fc1e0f
 
 namespace StillGoodToGo.Dtos
 {
