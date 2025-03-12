@@ -56,7 +56,7 @@ namespace StillGoodToGo.Models
         /// Gets or sets the list of status associated with the publication (Available, Sold, Unavailable).
         /// </summary>
         [Required]
-        [Column(TypeName = "nvarchar(20)")] //make sure the enum is stored as a string in the database.
+        [Column(TypeName = "nvarchar(20)")] 
         public PublicationStatus Status { get; set; } = PublicationStatus.Available;
 
         /// <summary>
