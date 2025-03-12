@@ -297,7 +297,7 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            var establishments = await _context.Establishments.ToListAsync();
+            var establishments = await _context.Establishments.Where(e => e.Active == true).ToListAsync();
 
             // Check if the establishment was found.
             if (establishments == null || !establishments.Any())
