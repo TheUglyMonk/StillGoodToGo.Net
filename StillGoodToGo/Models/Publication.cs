@@ -84,6 +84,16 @@ namespace StillGoodToGo.Models
         /// </summary>
         public Publication() { }
 
+        /// <summary>
+        /// Constructor to create a publication.
+        /// </summary>
+        /// <param name="id">Unique identifier for the publication.</param>
+        /// <param name="establishmentId">Establishment responsible for the publication.</param>
+        /// <param name="description">Description of the publication.</param>
+        /// <param name="price">Price of the item.</param>
+        /// <param name="endDate">Expiration date.</param>
+        /// <param name="status">Status of the publication.</param>
+        /// <exception cref="ArgumentException">Thrown when EndDate is not after PostDate.</exception>
         public Publication(int id, int establishmentId, string description, double price, DateTime postDate, DateTime endDate, PublicationStatus status)
         {
             Id = id;

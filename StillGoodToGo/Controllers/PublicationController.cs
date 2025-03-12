@@ -22,7 +22,11 @@ namespace StillGoodToGo.Controllers
             _publicationService = publicationService ?? throw new ArgumentNullException(nameof(publicationService));
             _publicationMapper = publicationMapper;
         }
-
+        /// <summary>
+        /// Creates a new publication in the database.
+        /// </summary>
+        /// <param name="publicationRequestDto">The DTO containing the publication details.</param>
+        /// <returns>Returns an IActionResult with the response of the operation.</returns>
         [HttpPost]
         public async Task<ActionResult> CreatePublication([FromBody] PublicationRequestDto publicationRequestDto)
         {
@@ -49,6 +53,16 @@ namespace StillGoodToGo.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves publications based on optional filtering criteria.
+        /// </summary>
+        /// <param name="category">The category of the publication.</param>
+        /// <param name="latitude">The latitude for location-based filtering.</param>
+        /// <param name="longitude">The longitude for location-based filtering.</param>
+        /// <param name="maxDistance">The maximum distance for filtering.</param>
+        /// <param name="foodType">The type of food associated with the publication.</param>
+        /// <param name="minDiscount">The minimum discount percentage.</param>
+        /// <returns>Returns a list of filtered publications.</returns>
         [HttpGet("search")]
         public async Task<IActionResult> GetPublications(
                 [FromQuery] Category? category,
@@ -71,15 +85,14 @@ namespace StillGoodToGo.Controllers
         }
 
         /// <summary>
-        /// Get all publications.
+        /// Retrieves all publications.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a list of all publications.</returns>
         [HttpGet]
         public async Task<IActionResult> GetPublications()
         {
             try
             {
-                // Get all publications
                 var publications = await _publicationService.GetAllPublications();
 
                 if (publications == null)
@@ -87,7 +100,6 @@ namespace StillGoodToGo.Controllers
                     return NotFound();
                 }
 
-                // Map publications to response dtos
                 var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
 
                 return Ok(responseDtos);
@@ -100,8 +112,8 @@ namespace StillGoodToGo.Controllers
             {
                 return StatusCode(500, new { details = ex.Message });
             }
-
         }
+
 
         /// <summary>
         /// Get publication by id.
@@ -113,16 +125,13 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Get publication by id
                 var publication = await _publicationService.GetPublicationById(id);
 
-                // Check if publication was found
                 if (publication == null)
                 {
                     return NotFound();
                 }
 
-                // Map publication to response dto
                 var responseDto = _publicationMapper.PublicationToPublicationResponse(publication);
 
                 return Ok(responseDto);
@@ -153,13 +162,10 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Map publication request dto to publication
                 Publication publication = _publicationMapper.PublicationRequestToPublication(publicationDto);
 
-                // Update publication
                 publication = await _publicationService.UpdatesPublication(id, publication);
 
-                // Map publication to response dto
                 return Ok(_publicationMapper.PublicationToPublicationResponse(publication));
             }
             catch (ParamIsNull ex)
@@ -191,13 +197,10 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Get publication by id
                 Publication publication = await _publicationService.GetPublicationById(id); ;
 
-                // Update publication
                 publication = await _publicationService.UpdatesPublicationStatus(id, status);
 
-                // Map publication to response dto
                 return Ok(_publicationMapper.PublicationToPublicationResponse(publication));
             }
             catch(ParamIsNull ex)
@@ -228,15 +231,14 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Get all publications from establishment
                 var publications = await _publicationService.GetPublicationsFromEstablishment(establishmentId);
-                // Check if publications were found
+                
                 if (publications == null)
                 {
                     return NotFound();
                 }
-                // Map publications to response dtos
-                var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
+
+                var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList(); 
                 return Ok(responseDtos);
             }
             catch (ParamIsNull ex)
@@ -264,16 +266,13 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Fetch publications with the specified status
                 var publications = await _publicationService.GetPublicationsWithStatus(establishmentId, status);
 
-                // Check if any publications are found
                 if (publications == null || !publications.Any())
                 {
                     return NotFound(new { message = "No publications found for the given establishment and status." });
                 }
 
-                // Map publications to response DTOs
                 var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
                 return Ok(responseDtos);
             }
@@ -309,16 +308,13 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Fetch publications with the specified status
                 var publications = await _publicationService.GetPublicationsByStatus(status);
 
-                // Check if any publications are found
                 if (publications == null || !publications.Any())
                 {
                     return NotFound(new { message = "No publications found with the specified status." });
                 }
 
-                // Map publications to response DTOs
                 var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
                 return Ok(responseDtos);
             }
@@ -347,22 +343,18 @@ namespace StillGoodToGo.Controllers
         {
             try
             {
-                // Validate the price range, if necessary
                 if (min < 0 || max < 0 || min > max)
                 {
                     return BadRequest(new { message = "Invalid price range." });
                 }
 
-                // Fetch publications within the price range
                 var publications = await _publicationService.GetPublicationsByPriceRange(min, max);
 
-                // Check if any publications are found
                 if (publications == null || !publications.Any())
                 {
                     return NotFound();
                 }
 
-                // Map publications to response DTOs
                 var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
 
                 return Ok(responseDtos);
@@ -392,13 +384,11 @@ namespace StillGoodToGo.Controllers
             {
                 var publications = await _publicationService.GetAvailablePublications();
 
-                // Check if any publications are found
                 if (publications == null || !publications.Any())
                 {
                     return NotFound();
                 }
 
-                // Map publications to response DTOs
                 var responseDtos = publications.Select(e => _publicationMapper.PublicationToPublicationResponse(e)).ToList();
 
                 return Ok(responseDtos);

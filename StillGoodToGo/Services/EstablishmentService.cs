@@ -40,19 +40,16 @@ namespace StillGoodToGo.Services
         /// <exception cref="InvalidCategoryFound">Thrown when an invalid category is found.</exception>
         public async Task<Establishment> AddEstablishment(Establishment establishment)
         {
-            // Validate that the database context is not null
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Validate that the establishment is not null
             if (establishment == null)
             {
                 throw new ParamIsNull();
             }
 
-            // Validate that the email and location are unique
             var emailExists = _context.Establishments.Any(e => e.Email == establishment.Email);
             var locationExists = _context.Establishments.Any(e => e.Latitude == establishment.Latitude && e.Longitude == establishment.Longitude);
 
@@ -61,13 +58,11 @@ namespace StillGoodToGo.Services
                 throw new EstablishmentNotUnique();
             }
 
-            // Validate that the establishment has at least one category
             if (establishment.Categories == null || !establishment.Categories.Any())
             {
                 throw new NoCategoryFound();
             }
 
-            // Validate that all categories are valid enum values
             foreach (var category in establishment.Categories)
             {
                 if (!Enum.IsDefined(typeof(Category), category))
@@ -76,16 +71,24 @@ namespace StillGoodToGo.Services
                 }
             }
 
-            //Ensures classification starts at 0
             establishment.Classification = 0;
 
-            // Adds establishment to the database
             await _context.Establishments.AddAsync(establishment);
             await _context.SaveChangesAsync();
 
             return establishment;
         }
 
+        /// <summary>
+        /// Updates an existing establishment in the database.
+        /// </summary>
+        /// <param name="id">The unique identifier of the establishment to update.</param>
+        /// <param name="updatedEstablishment">The updated establishment details.</param>
+        /// <returns>Returns the updated establishment entity.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the database context is not initialized.</exception>
+        /// <exception cref="ParamIsNull">Thrown when the provided establishment data is null.</exception>
+        /// <exception cref="InvalidParam">Thrown when required fields are empty or invalid.</exception>
+        /// <exception cref="NotFoundInDbSet">Thrown when the establishment with the given ID is not found.</exception>
         public async Task<Establishment> UpdatesEstablishment(int id, Establishment updatedEstablishment)
         {
 
@@ -162,29 +165,24 @@ namespace StillGoodToGo.Services
         /// <exception cref="EstablishmentAlreadyDesactivated"></exception>
         public async Task<Establishment> DeactivateEstablishment(int id)
         {
-            // Check that the database context is initialized.
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Locate the establishment by its id.
             Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
             if (establishment == null)
             {
                 throw new NotFoundInDbSet();
             }
 
-            // Check if the establishment is already deactivated.
             if (!establishment.Active)
             {
                 throw new EstablishmentAlreadyDesactivated();
             }
 
-            // Deactivate the establishment.
             establishment.Active = false;
 
-            // Save the changes to the database.
             await _context.SaveChangesAsync();
 
             return establishment;
@@ -199,19 +197,16 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<Establishment> GetEstablishmentById(int id)
         {
-            // Check that the database context is initialized.
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the id is valid.
-            if (id == null || id <= 0)
+            if (id <= 0)
             {
                 throw new InvalidParam();
             }
 
-            // Find the establishment by its id.
             var establishment = await _context.Establishments.FindAsync(id);
             if (establishment == null)
             {
@@ -231,24 +226,20 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<List<Establishment>> GetEstablishmentsByDescription(string description)
         {
-            // Check that the database context is initialized.
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
             }
 
-            // Check that the description is valid.
             if (string.IsNullOrEmpty(description))
             {
                 throw new InvalidParam();
             }
 
-            // Find the establishment by its description.
             var establishments = await _context.Establishments
              .Where(e => e.Description == description)
              .ToListAsync();
 
-            // Check if the establishment was found.
             if (establishments == null || !establishments.Any())
             {
                 throw new NotFoundInDbSet();
@@ -266,7 +257,6 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<List<Establishment>> GetEstablishments()
         {
-            // Check that the database context is initialized.
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
@@ -274,7 +264,6 @@ namespace StillGoodToGo.Services
 
             var establishments = await _context.Establishments.ToListAsync();
 
-            // Check if the establishment was found.
             if (establishments == null || !establishments.Any())
             {
                 throw new NotFoundInDbSet("No establishments found.");
@@ -291,7 +280,6 @@ namespace StillGoodToGo.Services
         /// <exception cref="NotFoundInDbSet"></exception>
         public async Task<List<Establishment>> GetActiveEstablishments()
         {
-            // Check that the database context is initialized.
             if (_context.Establishments == null)
             {
                 throw new DbSetNotInitialize();
@@ -299,7 +287,6 @@ namespace StillGoodToGo.Services
 
             var establishments = await _context.Establishments.ToListAsync();
 
-            // Check if the establishment was found.
             if (establishments == null || !establishments.Any())
             {
                 throw new NotFoundInDbSet("No establishments found.");

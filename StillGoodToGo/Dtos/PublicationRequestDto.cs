@@ -56,8 +56,19 @@ namespace StillGoodToGo.Dtos
             Status = status;
         }
 
+        /// <summary>
+        /// Default constructor for the <see cref="PublicationRequestDto"/> class.
+        /// </summary>
         public PublicationRequestDto() { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublicationRequestDto"/> class with specified values.
+        /// </summary>
+        /// <param name="establishmentId">The ID of the establishment associated with the publication.</param>
+        /// <param name="description">The description of the publication.</param>
+        /// <param name="price">The price of the publication.</param>
+        /// <param name="endDate">The expiration date of the publication.</param>
+        /// <param name="status">The status of the publication.</param>
         public PublicationRequestDto(int establishmentId, string description, double price, DateTime endDate, PublicationStatus status)
         {
             EstablishmentId = establishmentId;
@@ -66,5 +77,6 @@ namespace StillGoodToGo.Dtos
             EndDate = endDate;
             Status = status;
         }
+
     }
 }
