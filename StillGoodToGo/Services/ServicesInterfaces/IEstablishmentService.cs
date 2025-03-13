@@ -52,5 +52,10 @@ namespace StillGoodToGo.Services.ServicesInterfaces
         /// Gets establishments by email.
         /// </summary>
         Task<Establishment> GetEstablishmentByEmail(string email);
+
+        /// <summary>
+        /// Updates establishment's classification.
+        /// </summary>
+        Task<Establishment> UpdateClassification(int id, double classification);
     }
 }

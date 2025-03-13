@@ -109,6 +109,39 @@ namespace StillGoodToGo.Controllers
         }
 
         /// <summary>
+        /// Updates the classification of an establishment.
+        /// </summary>
+        /// <param name="id">The unique identifier of the establishment.</param>
+        /// <param name="classification">The classification request containing the new value.</param>
+        /// <returns>An HTTP response indicating success or failure.</returns>
+        /// <response code="200">Returns the updated establishment data.</response>
+        /// <response code="400">Occurs if the request parameters are invalid.</response>
+        /// <response code="404">Occurs if the establishment is not found.</response>
+        /// <response code="500">Occurs if there is an internal server error.</response>
+        [HttpPut("classification/{id}")]
+        public async Task<IActionResult> UpdateClassification(int id, [FromBody] ClassificationRequest classification)
+        {
+            try
+            {
+                Establishment establishment = await _establishmentService.UpdateClassification(id, classification.Value);
+
+                return Ok(_establishmentMapper.EstablishmentToEstablishmentResponse(establishment));
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (InvalidParam e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (NotFoundInDbSet e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
         /// Deactivates an establishment in the database.
         /// </summary>
         /// <param name="id"></param>
