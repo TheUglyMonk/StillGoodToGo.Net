@@ -19,7 +19,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StillGoodToGoContext>(options =>
+<<<<<<< HEAD
 options.UseSqlServer(builder.Configuration.GetConnectionString("GoodToGoDotNetDB")));
+=======
+options.UseSqlServer(builder.Configuration.GetConnectionString("StillGoodToGoDB")));
+>>>>>>> 17223f5c14c9c7cc9a4e8a2e930ac9a034fa7124
 
 // Register services
 builder.Services.AddScoped<IEstablishmentService, EstablishmentService>();

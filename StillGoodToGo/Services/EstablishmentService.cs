@@ -149,6 +149,42 @@ namespace StillGoodToGo.Services
             establishment.Longitude = updatedEstablishment.Longitude;
             establishment.Description = updatedEstablishment.Description;
             establishment.Active = updatedEstablishment.Active;
+            establishment.Classification = updatedEstablishment.Classification;
+
+            await _context.SaveChangesAsync();
+
+            return establishment;
+        }
+
+        /// <summary>
+        /// Updates the classification of an establishment in the database.
+        /// </summary>
+        /// <param name="id">The unique identifier of the establishment.</param>
+        /// <param name="classification">The new classification value (must be between 0 and 5).</param>
+        /// <returns>The updated <see cref="Establishment"/> object.</returns>
+        /// <exception cref="DbSetNotInitialize">Thrown when the database context is not initialized.</exception>
+        /// <exception cref="NotFoundInDbSet">Thrown when the establishment with the given ID is not found.</exception>
+        /// <exception cref="InvalidParam">Thrown when the classification value is out of the valid range (0-5).</exception>
+        public async Task<Establishment> UpdateClassification (int id, double classification)
+        {
+            if (_context.Establishments == null)
+            {
+                throw new DbSetNotInitialize();
+            }
+
+            Establishment establishment = _context.Establishments.FirstOrDefault(e => e.Id == id);
+
+            if (establishment == null)
+            {
+                throw new NotFoundInDbSet();
+            }
+
+            if (classification < 0 || classification > 5)
+            {
+                throw new InvalidParam("Invalid classification");
+            }
+
+            establishment.Classification = classification;
 
             await _context.SaveChangesAsync();
 
@@ -285,7 +321,7 @@ namespace StillGoodToGo.Services
                 throw new DbSetNotInitialize();
             }
 
-            var establishments = await _context.Establishments.ToListAsync();
+            var establishments = await _context.Establishments.Where(e => e.Active == true).ToListAsync();
 
             if (establishments == null || !establishments.Any())
             {
